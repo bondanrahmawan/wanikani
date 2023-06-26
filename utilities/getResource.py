@@ -10,7 +10,6 @@ resourceData = []
 while next_url is not None and i < 20:
     print(next_url)
     payload = ""
-    headers = {"Authorization": "Bearer 46076ad3-6b4c-42e5-9935-cbb66071e6ce"}
 
     response = requests.request("GET", next_url, headers=headers, data=payload)
 
