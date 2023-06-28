@@ -1,4 +1,11 @@
+import json
 from pymongo import MongoClient
+from documentMapperService import (
+    createRadicalDocument,
+    createKanjiDocument,
+    createKotobaKanjiDocument,
+    createKotobaKanaDocument,
+)
 
 # Set up the MongoDB connection
 client = MongoClient("mongodb://localhost:27017")
@@ -7,33 +14,30 @@ client = MongoClient("mongodb://localhost:27017")
 db = client["admin"]
 
 # Access a specific collection within the database
-collection = db["kana_vocabulary"]
+collectionRadical = db["radical"]
+collectionKanji = db["kanji"]
+collectionKotobaKanji = db["kotoba_kanji"]
+collectionKotobaKana = db["kotoba_kana"]
 
-# Perform operations on the collection
-# For example, insert a document
-document = {
-    "id": 9177,
-    "object": "kana_vocabulary",
-    "data": {
-        "level": 2,
-        "slug": "おはよう",
-        "document_url": "https://www.wanikani.com/vocabulary/%E3%81%8A%E3%81%AF%E3%82%88%E3%81%86",
-        "characters": "おはよう",
-        "meanings": [
-            {"meaning": "Good Morning", "primary": True, "accepted_answer": True},
-            {"meaning": "Morning", "primary": False, "accepted_answer": True},
-        ],
-        "context_sentences": [
-            {"en": "Good morning, Miho-chan!", "ja": "ミホちゃん、おはよう！"},
-            {"en": 'I texted "good morning" to Mike.', "ja": "マイクに「おはよう」とメールをした。"},
-            {"en": "Ugh, I'm sleepy... morning.", "ja": "うーっ、ねむいー、おはよう。"},
-        ],
-    },
-}
+# Specify the path to the JSON file
+file_path = "resourceAll.json"
 
+# Open the file in read mode
+with open(file_path, "r") as file:
+    # Load the JSON data as a list of objects
+    data = json.load(file)
 
-result = collection.insert_one(document)
-print("Inserted document ID:", result.inserted_id)
+# Access and iterate over each JSON object
+for obj in data:
+    # Access specific properties of each object
+    if obj["object"] == "radical":
+        result = collectionRadical.insert_one(createRadicalDocument(obj))
+    elif obj["object"] == "kanji":
+        result = collectionKanji.insert_one(createKanjiDocument(obj))
+    elif obj["object"] == "vocabulary":
+        result = collectionKotobaKanji.insert_one(createKotobaKanjiDocument(obj))
+    else:
+        result = collectionKotobaKana.insert_one(createKotobaKanaDocument(obj))
 
 # Close the connection
 client.close()
