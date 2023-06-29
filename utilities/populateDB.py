@@ -14,7 +14,7 @@ client = MongoClient("mongodb://localhost:27017")
 db = client["admin"]
 
 # Access a specific collection within the database
-collectionRadical = db["radical"]
+collectionRadical = db["radicals"]
 collectionKanji = db["kanji"]
 collectionKotobaKanji = db["kotoba_kanji"]
 collectionKotobaKana = db["kotoba_kana"]
@@ -33,10 +33,13 @@ for obj in data:
     if obj["object"] == "radical":
         result = collectionRadical.insert_one(createRadicalDocument(obj))
     elif obj["object"] == "kanji":
+        # pass
         result = collectionKanji.insert_one(createKanjiDocument(obj))
     elif obj["object"] == "vocabulary":
+        # pass
         result = collectionKotobaKanji.insert_one(createKotobaKanjiDocument(obj))
     else:
+        # pass
         result = collectionKotobaKana.insert_one(createKotobaKanaDocument(obj))
 
 # Close the connection
