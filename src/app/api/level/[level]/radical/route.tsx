@@ -1,5 +1,5 @@
 import connectDB from "../../../../../../utilities/connectMongo";
-import RadicalModel from "../../../../../../model/Radical";
+import { RadicalModel } from "../../../../../../model/commonDocumentModel";
 
 export async function GET(
 	request: Request,

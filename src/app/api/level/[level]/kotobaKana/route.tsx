@@ -1,5 +1,5 @@
 import connectDB from "../../../../../../utilities/connectMongo";
-import KotobaKanaModel from "../../../../../../model/KotobaKana";
+import { KotobaKanaModel } from "../../../../../../model/commonDocumentModel";
 
 export async function GET(
 	request: Request,

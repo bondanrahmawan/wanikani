@@ -1,35 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
-import styles from "./radical.module.css";
+import { Radical, CharacterImage } from "../../model/commonTypes";
+import styles from "./panel.module.css";
 
-type CharacterImage = {
-	url: string;
-	metadata: {
-		color: string;
-		dimensions: string;
-		style_name: string;
-	};
-	content_type: string;
-};
-
-interface RadicalData {
-	level: number;
-	slug: string;
-	characters: string;
-	character_images: Array<CharacterImage>;
-}
-
-type Radical = {
-	id: number;
-	data: RadicalData;
-};
-
-interface PanelProps {
+type PanelProps = {
 	level: string;
-}
+};
 
-const MyComponent: React.FC<PanelProps> = ({ level }) => {
-	const [users, setUsers] = useState<Radical[]>([]);
+const RadicalPanel: React.FC<PanelProps> = ({ level }) => {
+	const [radicals, setRadicals] = useState<Radical[]>([]);
 
 	const components: Array<JSX.Element> = [];
 
@@ -40,9 +19,7 @@ const MyComponent: React.FC<PanelProps> = ({ level }) => {
 					"http://localhost:3000/api/level/" + level + "/radical"
 				);
 				const data = await response.json();
-				console.log(data);
-				setUsers(data);
-				console.log(users);
+				setRadicals(data);
 			} catch (err) {
 				console.error("Error fetching users:", err);
 			}
@@ -51,31 +28,34 @@ const MyComponent: React.FC<PanelProps> = ({ level }) => {
 		fetchUsers();
 	}, []);
 
-	users.forEach((el) =>
+	radicals.forEach((radical) =>
 		components.push(
-			<RectangularCard
-				id={el.id}
-				key={el.id}
-				slug={el.data.slug}
-				character_images={el.data.character_images}
+			<Card
+				id={radical.id}
+				key={radical.id}
+				slug={radical.data.slug}
+				character_images={radical.data.character_images}
 			/>
 		)
 	);
 
-	return <div className={styles.panel}>{components}</div>;
+	const finalComponent = (
+		<div>
+			<h2 className={styles.headerSection}>Radical</h2>
+			<div className={styles.panel}>{components}</div>
+		</div>
+	);
+
+	return finalComponent;
 };
 
-interface CardProps {
+type CardProps = {
 	id: number;
 	slug: string;
 	character_images: Array<CharacterImage>;
-}
+};
 
-const RectangularCard: React.FC<CardProps> = ({
-	id,
-	slug,
-	character_images,
-}) => {
+const Card: React.FC<CardProps> = ({ id, slug, character_images }) => {
 	return (
 		<div className={styles.card}>
 			<img
@@ -85,7 +65,7 @@ const RectangularCard: React.FC<CardProps> = ({
 					width: "100px",
 					height: "100px",
 					padding: "10px",
-					backgroundColor: "#FF00FF",
+					backgroundColor: "#00CCFF",
 				}}
 			/>
 			<a href={"" + id} className={styles.title}>
@@ -95,4 +75,4 @@ const RectangularCard: React.FC<CardProps> = ({
 	);
 };
 
-export default MyComponent;
+export default RadicalPanel;

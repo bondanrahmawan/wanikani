@@ -25,3 +25,46 @@ export type CharacterImage = {
 	};
 	content_type: string;
 };
+
+export type KanjiMeaning = {
+	meaning: string;
+	primary: boolean;
+	accepted_answer: boolean;
+};
+
+export type KanjiReading = {
+	reading: string;
+	primary: boolean;
+	accepted_answer: boolean;
+};
+
+export type Radical = {
+	id: number;
+	data: {
+		level: number;
+		slug: string;
+		characters: string;
+		character_images: Array<CharacterImage>;
+	};
+};
+
+export type Kanji = {
+	id: number;
+	data: {
+		level: number;
+		slug: string;
+		characters: string;
+		readings: Array<KanjiReading>;
+		meanings: Array<KanjiMeaning>;
+	};
+};
+
+export type Kana = {
+	id: number;
+	data: {
+		level: number;
+		slug: string;
+		characters: string;
+		meanings: Array<KanjiMeaning>;
+	};
+};
