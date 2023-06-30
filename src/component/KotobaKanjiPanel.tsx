@@ -36,6 +36,7 @@ const KotobaKanjiPanel: React.FC<PanelProps> = ({ level }) => {
 				characters={k.data.characters}
 				reading={k.data.readings[0].reading}
 				meaning={k.data.meanings[0].meaning}
+				docUrl={k.data.document_url}
 			/>
 		)
 	);
@@ -55,11 +56,18 @@ type CardProps = {
 	characters: string;
 	reading: string;
 	meaning: string;
+	docUrl: string;
 };
 
-const Card: React.FC<CardProps> = ({ id, characters, reading, meaning }) => {
+const Card: React.FC<CardProps> = ({
+	id,
+	characters,
+	reading,
+	meaning,
+	docUrl,
+}) => {
 	return (
-		<a href={"" + id} className={styles.cardKotoba}>
+		<a href={docUrl} target="_blank" className={styles.cardKotoba}>
 			<span className={styles.charactersLong}>{characters}</span>
 			<span className={styles.titleBoxLong}>
 				<span className={styles.titleLong}>{reading}</span>

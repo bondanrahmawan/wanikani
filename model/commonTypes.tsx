@@ -43,6 +43,7 @@ export type Radical = {
 	data: {
 		level: number;
 		slug: string;
+		document_url: string;
 		characters: string;
 		character_images: Array<CharacterImage>;
 	};
@@ -53,6 +54,7 @@ export type Kanji = {
 	data: {
 		level: number;
 		slug: string;
+		document_url: string;
 		characters: string;
 		readings: Array<KanjiReading>;
 		meanings: Array<KanjiMeaning>;
@@ -64,6 +66,7 @@ export type Kana = {
 	data: {
 		level: number;
 		slug: string;
+		document_url: string;
 		characters: string;
 		meanings: Array<KanjiMeaning>;
 	};

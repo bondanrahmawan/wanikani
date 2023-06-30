@@ -34,7 +34,9 @@ const KanjiPanel: React.FC<PanelProps> = ({ level }) => {
 				id={k.id}
 				key={k.id}
 				characters={k.data.characters}
+				reading={k.data.readings[0].reading}
 				meaning={k.data.meanings[0].meaning}
+				docUrl={k.data.document_url}
 			/>
 		)
 	);
@@ -52,14 +54,25 @@ const KanjiPanel: React.FC<PanelProps> = ({ level }) => {
 type CardProps = {
 	id: number;
 	characters: string;
+	reading: string;
 	meaning: string;
+	docUrl: string;
 };
 
-const Card: React.FC<CardProps> = ({ id, characters, meaning }) => {
+const Card: React.FC<CardProps> = ({
+	id,
+	characters,
+	reading,
+	meaning,
+	docUrl,
+}) => {
 	return (
-		<a href={"" + id} className={styles.cardKanji}>
-			<span className={styles.characters}>{characters}</span>
-			<span className={styles.title}>{meaning}</span>
+		<a href={docUrl} target="_blank" className={styles.cardKanji}>
+			<div className={styles.characters}>{characters}</div>
+			<div className={styles.title}>{reading}</div>
+			<div className={styles.title}>
+				<div className={styles.titleInner}>{meaning}</div>
+			</div>
 		</a>
 	);
 };

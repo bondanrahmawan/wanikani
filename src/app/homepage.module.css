@@ -1,3 +1,13 @@
+.header {
+    padding-left: 10px;
+    font-weight: 300;
+    font-size: 40px;
+    color: white;
+  
+    display: flex;
+    justify-content: space-between;
+}
+
 .card {
     border: 1px solid #ccc;
     background-color: #767676;
@@ -11,7 +21,6 @@
 }
 
 .level {
-    border: 1px solid #ccc; 
     height: 80px;
     width: 750px;
     padding: 25px;
