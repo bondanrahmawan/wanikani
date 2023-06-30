@@ -1,0 +1,25 @@
+.panel {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: auto;
+}
+
+.card {
+  background-color: #767676;
+  
+  width: 100px;
+  height: 125px;
+  margin: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

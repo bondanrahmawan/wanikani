@@ -1,8 +1,10 @@
-import MyComponent from "../../users"
+import RadicalPanel from "../../../component/RadicalPanel";
 
 export default function Page({ params }: { params: { level: string } }) {
-    return <div>
-      My Post: {params.level}
-      <MyComponent />
-    </div>
-  }
+	return (
+		<div>
+			Level: {params.level}
+			<RadicalPanel level={params.level} />
+		</div>
+	);
+}

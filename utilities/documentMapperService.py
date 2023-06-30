@@ -1,11 +1,18 @@
 def createRadicalDocument(rawDoc):
+    characterImages = [
+        item
+        for item in rawDoc["data"]["character_images"]
+        if item["metadata"].get("style_name") == "original"
+    ]
+
     newDoc = {
-        "id": rawDoc.get("id"),
+        "id": rawDoc["id"],
         "data": {
-            "level": rawDoc["data"].get("level"),
-            "slug": rawDoc["data"].get("slug"),
-            "document_url": rawDoc["data"].get("document_url"),
-            "characters": rawDoc["data"].get("characters"),
+            "level": rawDoc["data"]["level"],
+            "slug": rawDoc["data"]["slug"],
+            "document_url": rawDoc["data"]["document_url"],
+            "characters": rawDoc["data"]["characters"],
+            "character_images": characterImages,
         },
     }
 
@@ -16,7 +23,7 @@ def createKanjiDocument(rawDoc):
     newDoc = {
         "id": rawDoc.get("id"),
         "data": {
-            "level": rawDoc["data"].get("level"),
+            "level": rawDoc["data"]["level"],
             "slug": rawDoc["data"].get("slug"),
             "document_url": rawDoc["data"].get("document_url"),
             "characters": rawDoc["data"].get("characters"),

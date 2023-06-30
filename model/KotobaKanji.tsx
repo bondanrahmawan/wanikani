@@ -1,22 +1,5 @@
 import { Schema, model, models } from "mongoose";
-
-interface Meaning {
-	meaning: string;
-	primary: boolean;
-	accepted_answer: boolean;
-}
-
-interface Reading {
-	type: string;
-	primary: boolean;
-	reading: string;
-	accepted_answer: boolean;
-}
-
-interface ContextSentence {
-	en: string;
-	ja: string;
-}
+import { Meaning, Reading, ContextSentence } from "./commonTypes";
 
 const KotobaKanjiSchema: Schema = new Schema(
 	{

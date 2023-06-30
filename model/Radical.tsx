@@ -1,4 +1,5 @@
 import { Schema, model, models } from "mongoose";
+import { CharacterImage } from "./commonTypes";
 
 const RadicalSchema: Schema = new Schema(
 	{
@@ -8,6 +9,7 @@ const RadicalSchema: Schema = new Schema(
 			slug: String,
 			document_url: String,
 			characters: String,
+			character_images: Array<CharacterImage>,
 		},
 	},
 	{ collection: "radical" }

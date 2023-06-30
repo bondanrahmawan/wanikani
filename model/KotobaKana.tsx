@@ -1,15 +1,5 @@
 import { Schema, model, models } from "mongoose";
-
-interface Meaning {
-	meaning: string;
-	primary: boolean;
-	accepted_answer: boolean;
-}
-
-interface ContextSentence {
-	en: string;
-	ja: string;
-}
+import { Meaning, ContextSentence } from "./commonTypes";
 
 const KotobaKanaSchema: Schema = new Schema(
 	{

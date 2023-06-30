@@ -1,17 +1,5 @@
 import { Schema, model, models } from "mongoose";
-
-interface Meaning {
-	meaning: string;
-	primary: boolean;
-	accepted_answer: boolean;
-}
-
-interface Reading {
-	type: string;
-	primary: boolean;
-	reading: string;
-	accepted_answer: boolean;
-}
+import { Meaning, Reading } from "./commonTypes";
 
 const KanjiSchema: Schema = new Schema(
 	{
