@@ -16,7 +16,7 @@ const KotobaKanaPanel: React.FC<PanelProps> = ({ level }) => {
 		const fetchUsers = async () => {
 			try {
 				const response = await fetch(
-					"http://localhost:3000/api/level/" + level + "/kotobaKana"
+					"http://localhost:3000/api/level/" + level + "/kotobakana"
 				);
 				const data = await response.json();
 				setKotobaKana(data);

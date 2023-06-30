@@ -16,7 +16,7 @@ const KotobaKanjiPanel: React.FC<PanelProps> = ({ level }) => {
 		const fetchUsers = async () => {
 			try {
 				const response = await fetch(
-					"http://localhost:3000/api/level/" + level + "/kotobaKanji"
+					"http://localhost:3000/api/level/" + level + "/kotobakanji"
 				);
 				const data = await response.json();
 				setKotobaKanji(data);
