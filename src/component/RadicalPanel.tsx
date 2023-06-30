@@ -28,16 +28,19 @@ const RadicalPanel: React.FC<PanelProps> = ({ level }) => {
 		fetchUsers();
 	}, []);
 
-	radicals.forEach((radical) =>
-		components.push(
-			<Card
-				id={radical.id}
-				key={radical.id}
-				slug={radical.data.slug}
-				character_images={radical.data.character_images}
-			/>
-		)
-	);
+	radicals.forEach((radical) => {
+		if (radical.data.characters != null) {
+			components.push(
+				<Card
+					id={radical.id}
+					key={radical.id}
+					slug={radical.data.slug}
+					characters={radical.data.characters}
+					docUrl={radical.data.document_url}
+				/>
+			);
+		}
+	});
 
 	const finalComponent = (
 		<div>
@@ -52,26 +55,18 @@ const RadicalPanel: React.FC<PanelProps> = ({ level }) => {
 type CardProps = {
 	id: number;
 	slug: string;
-	character_images: Array<CharacterImage>;
+	characters: string;
+	docUrl: string;
 };
 
-const Card: React.FC<CardProps> = ({ id, slug, character_images }) => {
+const Card: React.FC<CardProps> = ({ id, slug, characters, docUrl }) => {
 	return (
-		<div className={styles.card}>
-			<img
-				src={character_images.length > 0 ? character_images[0].url : ""}
-				alt="Description of the image"
-				style={{
-					width: "100px",
-					height: "100px",
-					padding: "10px",
-					backgroundColor: "#00CCFF",
-				}}
-			/>
-			<a href={"" + id} className={styles.title}>
-				{slug}
-			</a>
-		</div>
+		<a href={docUrl} target="_blank" className={styles.card}>
+			<div className={styles.characters}>{characters}</div>
+			<div className={styles.title}>
+				<div className={styles.titleInner}>{slug}</div>
+			</div>
+		</a>
 	);
 };
 

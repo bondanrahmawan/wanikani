@@ -31,10 +31,10 @@
 }
 
 .card {
-  background-color: #767676;
+  background-color: #0088FF;
 
-  width: 100px;
-  height: 125px;
+  width: 120px;
+  height: 150px;
   margin: 10px;
 
   display: flex;
