@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Radical, CharacterImage } from "../../model/commonTypes";
+import { Radical } from "../../model/commonTypes";
 import styles from "./panel.module.css";
 
 type PanelProps = {
@@ -13,7 +13,7 @@ const RadicalPanel: React.FC<PanelProps> = ({ level }) => {
 	const components: Array<JSX.Element> = [];
 
 	useEffect(() => {
-		const fetchUsers = async () => {
+		const fetchRadical = async () => {
 			try {
 				const response = await fetch(
 					"http://localhost:3000/api/level/" + level + "/radical"
@@ -25,14 +25,13 @@ const RadicalPanel: React.FC<PanelProps> = ({ level }) => {
 			}
 		};
 
-		fetchUsers();
+		fetchRadical();
 	}, []);
 
 	radicals.forEach((radical) => {
 		if (radical.data.characters != null) {
 			components.push(
 				<Card
-					id={radical.id}
 					key={radical.id}
 					slug={radical.data.slug}
 					characters={radical.data.characters}
@@ -53,18 +52,17 @@ const RadicalPanel: React.FC<PanelProps> = ({ level }) => {
 };
 
 type CardProps = {
-	id: number;
 	slug: string;
 	characters: string;
 	docUrl: string;
 };
 
-const Card: React.FC<CardProps> = ({ id, slug, characters, docUrl }) => {
+const Card: React.FC<CardProps> = ({ slug, characters, docUrl }) => {
 	return (
 		<a href={docUrl} target="_blank" className={styles.card}>
 			<div className={styles.characters}>{characters}</div>
-			<div className={styles.title}>
-				<div className={styles.titleInner}>{slug}</div>
+			<div className={styles.meaningKanji}>
+				<div className={styles.meaningKanjiInner}>{slug}</div>
 			</div>
 		</a>
 	);

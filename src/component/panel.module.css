@@ -79,7 +79,14 @@
   justify-content: center;
 }
 
-.titleInner {
+.meaningKanji {
+  padding-top: 10px;
+  color: white;
+  display: flex;
+  justify-content: center;
+}
+
+.meaningKanjiInner {
   color: white;
   font-size: 16px;
 

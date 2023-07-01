@@ -29,7 +29,7 @@ export async function GET(
 			result = await KotobaKanaModel.find(query);
 		}
 	} catch (error) {
-		console.log("error " + error);
+		console.error("fetch error " + error);
 	}
 
 	return new Response(JSON.stringify(result));
