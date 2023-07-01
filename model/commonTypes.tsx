@@ -49,6 +49,14 @@ export type Radical = {
 	};
 };
 
+export type RadicalExcercise = {
+	id: number;
+	data: {
+		slug: string;
+		characters: string;
+	};
+};
+
 export type Kanji = {
 	id: number;
 	data: {

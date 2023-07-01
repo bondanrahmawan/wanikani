@@ -1,13 +1,13 @@
 "use client";
-import { useEffect, useState } from "react";
-import { Radical } from "../../../../model/commonTypes";
+import { useEffect, useState, ChangeEvent, KeyboardEvent } from "react";
+import { RadicalExcercise } from "../../../../model/commonTypes";
 import Image from "next/image";
 import styles from "./page.module.css";
 import left from "../../../asset/left.png";
 import right from "../../../asset/right.png";
 
 export default function Page({ params }: { params: { level: string } }) {
-	const [radicals, setRadicals] = useState<Radical[]>([]);
+	const [radicals, setRadicals] = useState<RadicalExcercise[]>([]);
 
 	useEffect(() => {
 		const fetchRadical = async () => {
@@ -33,11 +33,12 @@ export default function Page({ params }: { params: { level: string } }) {
 }
 
 type SlideProps = {
-	slides: Array<Radical>;
+	slides: Array<RadicalExcercise>;
 };
 
 const Slideshow: React.FC<SlideProps> = ({ slides }) => {
 	const [currentSlide, setCurrentSlide] = useState(0);
+	const [inputValue, setInputValue] = useState("");
 
 	const goToNextSlide = () => {
 		setCurrentSlide(currentSlide === slides.length - 1 ? 0 : currentSlide + 1);
@@ -45,6 +46,31 @@ const Slideshow: React.FC<SlideProps> = ({ slides }) => {
 
 	const goToPreviousSlide = () => {
 		setCurrentSlide(currentSlide === 0 ? slides.length - 1 : currentSlide - 1);
+	};
+
+	const checkMeaning = (answer: string) => {
+		if (answer === slides[currentSlide].data.slug) {
+			const id = slides[currentSlide].id;
+			slides = slides.filter((radical) => radical.id !== id);
+			console.log("correct");
+		} else {
+			console.log("incorrect");
+		}
+	};
+
+	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+		const newValue = event.target.value;
+		setInputValue(newValue);
+	};
+
+	const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
+		if (event.key === "Enter") {
+			console.log(slides);
+			checkMeaning(inputValue);
+			setInputValue("");
+			goToNextSlide();
+			console.log(slides);
+		}
 	};
 
 	return (
@@ -60,7 +86,13 @@ const Slideshow: React.FC<SlideProps> = ({ slides }) => {
 						{slides[currentSlide].data.characters}
 					</div>
 				</div>
-				<input className={styles.input} type="text" />
+				<input
+					className={styles.input}
+					type="text"
+					value={inputValue}
+					onInput={handleInputChange}
+					onKeyDown={handleKeyPress}
+				/>
 			</div>
 			<div className={styles.right}>
 				<button onClick={goToNextSlide} className={styles.button}>
