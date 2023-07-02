@@ -80,35 +80,30 @@ const Slideshow: React.FC<SlideProps> = ({ slides }) => {
 
 	return (
 		<div className={styles.page}>
-			<div className={styles.left}>
-				<button onClick={goToPreviousSlide} className={styles.button}>
-					<Image src={left} alt=""></Image>
-				</button>
-			</div>
 			<div className={styles.slide}>
+				<div className={styles.left}>
+					<button onClick={goToPreviousSlide} className={styles.button}>
+						<Image src={left} alt=""></Image>
+					</button>
+				</div>
 				<div className={styles.card}>
 					<div className={styles.characters}>
 						{slides[currentSlide].data.characters}
 					</div>
 				</div>
-				<input
-					className={styles.input}
-					type="text"
-					value={inputValue}
-					onInput={handleInputChange}
-					onKeyDown={handleKeyPress}
-				/>
-				{answers.length > 6 ? (
-					<ResultPanel answersRadical={answers} />
-				) : (
-					<div />
-				)}
+				<div className={styles.right}>
+					<button onClick={goToNextSlide} className={styles.button}>
+						<Image src={right} alt=""></Image>
+					</button>
+				</div>
 			</div>
-			<div className={styles.right}>
-				<button onClick={goToNextSlide} className={styles.button}>
-					<Image src={right} alt=""></Image>
-				</button>
-			</div>
+			<input
+				className={styles.input}
+				type="text"
+				value={inputValue}
+				onInput={handleInputChange}
+				onKeyDown={handleKeyPress}
+			/>
 		</div>
 	);
 };

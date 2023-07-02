@@ -2,14 +2,15 @@
   width: 100%;
 
   display: flex; 
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
 }
 
 .slide {
+  background-color: #0088FF;
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
