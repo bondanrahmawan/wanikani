@@ -2,6 +2,7 @@
 import { useEffect, useState, ChangeEvent, KeyboardEvent } from "react";
 import { RadicalExcercise } from "../../../../model/commonTypes";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import left from "../../../asset/left.png";
 import right from "../../../asset/right.png";
@@ -37,25 +38,22 @@ type SlideProps = {
 };
 
 const Slideshow: React.FC<SlideProps> = ({ slides }) => {
+	const router = useRouter();
+	const size = slides.length;
+	const [answers, setAnswers] = useState<RadicalExcercise[]>([]);
 	const [currentSlide, setCurrentSlide] = useState(0);
-	const [inputValue, setInputValue] = useState("");
+	const [inputValue, setInputValue] = useState<string>("");
 
 	const goToNextSlide = () => {
+		// while (!isValidString(slides[currentSlide].data.answer)) {
 		setCurrentSlide(currentSlide === slides.length - 1 ? 0 : currentSlide + 1);
+		// }
 	};
 
 	const goToPreviousSlide = () => {
+		// while (!isValidString(slides[currentSlide].data.answer)) {
 		setCurrentSlide(currentSlide === 0 ? slides.length - 1 : currentSlide - 1);
-	};
-
-	const checkMeaning = (answer: string) => {
-		if (answer === slides[currentSlide].data.slug) {
-			const id = slides[currentSlide].id;
-			slides = slides.filter((radical) => radical.id !== id);
-			console.log("correct");
-		} else {
-			console.log("incorrect");
-		}
+		// }
 	};
 
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -65,13 +63,29 @@ const Slideshow: React.FC<SlideProps> = ({ slides }) => {
 
 	const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === "Enter") {
-			console.log(slides);
-			checkMeaning(inputValue);
+			slides[currentSlide].data.answer = inputValue;
 			setInputValue("");
 			goToNextSlide();
-			console.log(slides);
+			setAnswers([...answers, slides[currentSlide]]);
 		}
 	};
+
+	function isValidString(str: string) {
+		return str !== null && str !== undefined && str.trim() !== "";
+	}
+
+	function hehe() {
+		router.push("http://localhost:3000/level/1");
+	}
+
+	useEffect(() => {
+		isValidString(slides[currentSlide].data.answer)
+			? setInputValue(slides[currentSlide].data.answer)
+			: setInputValue("");
+		if (answers.length === 3) {
+			hehe();
+		}
+	}, [currentSlide]);
 
 	return (
 		<div className={styles.page}>
@@ -84,6 +98,7 @@ const Slideshow: React.FC<SlideProps> = ({ slides }) => {
 				<div className={styles.card}>
 					<div className={styles.characters}>
 						{slides[currentSlide].data.characters}
+						{answers.length}
 					</div>
 				</div>
 				<input

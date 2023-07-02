@@ -54,6 +54,7 @@ export type RadicalExcercise = {
 	data: {
 		slug: string;
 		characters: string;
+		answer: string;
 	};
 };
 
