@@ -1,13 +1,15 @@
 "use client";
 import { useEffect, useState, ChangeEvent, KeyboardEvent } from "react";
-import { RadicalExcercise } from "../../../../model/commonTypes";
+import { RadicalExercise } from "../../../../model/commonTypes";
 import Image from "next/image";
 import styles from "./page.module.css";
+import home from "../../../asset/home-dark.png";
 import left from "../../../asset/left.png";
 import right from "../../../asset/right.png";
+import up from "../../../asset/up.png";
 
 export default function Page({ params }: { params: { level: string } }) {
-	const [radicals, setRadicals] = useState<RadicalExcercise[]>([]);
+	const [radicals, setRadicals] = useState<RadicalExercise[]>([]);
 
 	useEffect(() => {
 		const fetchRadical = async () => {
@@ -15,8 +17,15 @@ export default function Page({ params }: { params: { level: string } }) {
 				const response = await fetch(
 					"http://localhost:3000/api/level/" + params.level + "/radical"
 				);
-				const data = await response.json();
-				setRadicals(data);
+				const data: RadicalExercise[] = await response.json();
+				setRadicals(
+					data.filter(
+						(radical) =>
+							radical.data.characters != null &&
+							radical.data.characters != undefined &&
+							radical.data.characters.trim() != ""
+					)
+				);
 			} catch (err) {
 				console.error("Error fetching users:", err);
 			}
@@ -27,20 +36,26 @@ export default function Page({ params }: { params: { level: string } }) {
 
 	return (
 		<div className="app">
-			{radicals.length > 0 ? <Slideshow slides={radicals} /> : <div />}
+			{radicals.length > 0 ? (
+				<Slideshow slides={radicals} level={params.level} />
+			) : (
+				<div />
+			)}
 		</div>
 	);
 }
 
 type SlideProps = {
-	slides: Array<RadicalExcercise>;
+	slides: Array<RadicalExercise>;
+	level: string;
 };
 
-const Slideshow: React.FC<SlideProps> = ({ slides }) => {
+const Slideshow: React.FC<SlideProps> = ({ slides, level }) => {
 	const size = slides.length;
-	const [answers, setAnswers] = useState<RadicalExcercise[]>([]);
+	const [answers, setAnswers] = useState<RadicalExercise[]>([]);
 	const [currentSlide, setCurrentSlide] = useState(0);
 	const [inputValue, setInputValue] = useState<string>("");
+	const [isInvalid, setIsInvalid] = useState(false);
 
 	const goToNextSlide = () => {
 		// while (!isValidString(slides[currentSlide].data.answer)) {
@@ -56,15 +71,20 @@ const Slideshow: React.FC<SlideProps> = ({ slides }) => {
 
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const newValue = event.target.value;
+		setIsInvalid(false);
 		setInputValue(newValue);
 	};
 
 	const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === "Enter") {
-			slides[currentSlide].data.answer = inputValue;
-			setInputValue("");
-			goToNextSlide();
-			setAnswers([...answers, slides[currentSlide]]);
+			if (isValidString(inputValue)) {
+				slides[currentSlide].data.answer = inputValue;
+				setInputValue("");
+				goToNextSlide();
+				setAnswers([...answers, slides[currentSlide]]);
+			} else {
+				setIsInvalid(true);
+			}
 		}
 	};
 
@@ -76,45 +96,68 @@ const Slideshow: React.FC<SlideProps> = ({ slides }) => {
 		isValidString(slides[currentSlide].data.answer)
 			? setInputValue(slides[currentSlide].data.answer)
 			: setInputValue("");
+		console.log(answers);
+		console.log(answers.length);
 	}, [currentSlide]);
 
 	return (
-		<div className={styles.page}>
-			<div className={styles.slide}>
-				<div className={styles.left}>
-					<button onClick={goToPreviousSlide}>
-						<Image src={left} alt=""></Image>
-					</button>
+		<div>
+			<div className={styles.header}>
+				<div className={styles.buttonGroup}>
+					<a href="/">
+						<Image className={styles.button} src={home} alt=""></Image>
+					</a>
+					<a href={"/level/" + level}>
+						<Image className={styles.button} src={up} alt=""></Image>
+					</a>
 				</div>
-				<div className={styles.card}>
-					<div className={styles.characters}>
-						{slides[currentSlide].data.characters}
-					</div>
-				</div>
-				<div className={styles.right}>
-					<button onClick={goToNextSlide}>
-						<Image src={right} alt=""></Image>
-					</button>
-				</div>
+				<h1>Level: {level}</h1>
 			</div>
-			<input
-				className={styles.input}
-				type="text"
-				value={inputValue}
-				onInput={handleInputChange}
-				onKeyDown={handleKeyPress}
-			/>
-			{answers.length > 6 ? <ResultPanel answersRadical={answers} /> : null}
+			{answers.length >= size ? (
+				<ResultPanel answersRadical={answers} />
+			) : (
+				<div className={styles.page}>
+					<div className={styles.slide}>
+						<div className={styles.left}>
+							<button onClick={goToPreviousSlide}>
+								<Image src={left} alt=""></Image>
+							</button>
+						</div>
+						<div className={styles.card}>
+							<div className={styles.characters}>
+								{slides[currentSlide].data.characters}
+							</div>
+						</div>
+						<div className={styles.right}>
+							<button onClick={goToNextSlide}>
+								<Image src={right} alt=""></Image>
+							</button>
+						</div>
+					</div>
+					<input
+						className={
+							isInvalid ? styles.input + " " + styles.invalid : styles.input
+						}
+						type="text"
+						value={inputValue}
+						onInput={handleInputChange}
+						onKeyDown={handleKeyPress}
+						onAnimationEnd={() => setIsInvalid(false)}
+					/>
+				</div>
+			)}
 		</div>
 	);
 };
 
 type PanelProps = {
-	answersRadical: Array<RadicalExcercise>;
+	answersRadical: Array<RadicalExercise>;
 };
 
 const ResultPanel: React.FC<PanelProps> = ({ answersRadical }) => {
 	const components: Array<JSX.Element> = [];
+
+	answersRadical.sort((a, b) => a.id - b.id);
 
 	answersRadical.forEach((k) =>
 		components.push(
@@ -129,7 +172,7 @@ const ResultPanel: React.FC<PanelProps> = ({ answersRadical }) => {
 
 	const finalComponent = (
 		<div className={styles.result}>
-			<h2 className={styles.headerSection}>Radical Excercise Result</h2>
+			<h2 className={styles.headerSection}>Exercise Result</h2>
 			<div className={styles.cardKotoba + " " + styles.header}>
 				<span className={styles.charactersLong}>Character</span>
 				<span className={styles.titleBoxLong}>

@@ -49,7 +49,7 @@ export type Radical = {
 	};
 };
 
-export type RadicalExcercise = {
+export type RadicalExercise = {
 	id: number;
 	data: {
 		slug: string;

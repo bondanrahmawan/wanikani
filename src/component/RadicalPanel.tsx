@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Radical } from "../../model/commonTypes";
+import Button from "./button";
 import styles from "./panel.module.css";
 
 type PanelProps = {
@@ -43,7 +44,10 @@ const RadicalPanel: React.FC<PanelProps> = ({ level }) => {
 
 	const finalComponent = (
 		<div>
-			<h2 className={styles.headerSection}>Radical</h2>
+			<div className={styles.headerSection}>
+				<h2>Radical</h2>
+				<Button url={"/exercise/" + level} />
+			</div>
 			<div className={styles.panel}>{components}</div>
 		</div>
 	);
