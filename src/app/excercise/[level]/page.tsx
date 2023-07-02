@@ -2,7 +2,6 @@
 import { useEffect, useState, ChangeEvent, KeyboardEvent } from "react";
 import { RadicalExcercise } from "../../../../model/commonTypes";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import left from "../../../asset/left.png";
 import right from "../../../asset/right.png";
@@ -38,7 +37,6 @@ type SlideProps = {
 };
 
 const Slideshow: React.FC<SlideProps> = ({ slides }) => {
-	const router = useRouter();
 	const size = slides.length;
 	const [answers, setAnswers] = useState<RadicalExcercise[]>([]);
 	const [currentSlide, setCurrentSlide] = useState(0);
@@ -74,17 +72,10 @@ const Slideshow: React.FC<SlideProps> = ({ slides }) => {
 		return str !== null && str !== undefined && str.trim() !== "";
 	}
 
-	function hehe() {
-		router.push("http://localhost:3000/level/1");
-	}
-
 	useEffect(() => {
 		isValidString(slides[currentSlide].data.answer)
 			? setInputValue(slides[currentSlide].data.answer)
 			: setInputValue("");
-		if (answers.length === 3) {
-			hehe();
-		}
 	}, [currentSlide]);
 
 	return (
@@ -98,7 +89,6 @@ const Slideshow: React.FC<SlideProps> = ({ slides }) => {
 				<div className={styles.card}>
 					<div className={styles.characters}>
 						{slides[currentSlide].data.characters}
-						{answers.length}
 					</div>
 				</div>
 				<input
@@ -108,6 +98,11 @@ const Slideshow: React.FC<SlideProps> = ({ slides }) => {
 					onInput={handleInputChange}
 					onKeyDown={handleKeyPress}
 				/>
+				{answers.length > 6 ? (
+					<ResultPanel answersRadical={answers} />
+				) : (
+					<div />
+				)}
 			</div>
 			<div className={styles.right}>
 				<button onClick={goToNextSlide} className={styles.button}>
@@ -115,5 +110,51 @@ const Slideshow: React.FC<SlideProps> = ({ slides }) => {
 				</button>
 			</div>
 		</div>
+	);
+};
+
+type PanelProps = {
+	answersRadical: Array<RadicalExcercise>;
+};
+
+const ResultPanel: React.FC<PanelProps> = ({ answersRadical }) => {
+	const components: Array<JSX.Element> = [];
+
+	answersRadical.forEach((k) =>
+		components.push(
+			<RadicalCard
+				key={k.id}
+				character={k.data.characters}
+				slug={k.data.slug}
+				answer={k.data.answer}
+			/>
+		)
+	);
+
+	const finalComponent = (
+		<div>
+			<h2 className={styles.headerSection}>Radical Excercise Result</h2>
+			<div className={styles.panelLong}>{components}</div>
+		</div>
+	);
+
+	return finalComponent;
+};
+
+type CardProps = {
+	character: string;
+	slug: string;
+	answer: string;
+};
+
+const RadicalCard: React.FC<CardProps> = ({ character, slug, answer }) => {
+	return (
+		<span className={styles.cardKotoba}>
+			<span className={styles.charactersLong}>{character}</span>
+			<span className={styles.titleBoxLong}>
+				<span className={styles.titleLong}>{slug}</span>
+				<span className={styles.titleLong}>{answer}</span>
+			</span>
+		</span>
 	);
 };
