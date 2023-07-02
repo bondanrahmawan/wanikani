@@ -12,7 +12,6 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
 }
 
 .card {
@@ -46,7 +45,6 @@
 }
 
 .left, .right {
-  height: 100%;
   width: 70px;
   display: flex;
 }

@@ -82,7 +82,7 @@ const Slideshow: React.FC<SlideProps> = ({ slides }) => {
 		<div className={styles.page}>
 			<div className={styles.slide}>
 				<div className={styles.left}>
-					<button onClick={goToPreviousSlide} className={styles.button}>
+					<button onClick={goToPreviousSlide}>
 						<Image src={left} alt=""></Image>
 					</button>
 				</div>
@@ -92,7 +92,7 @@ const Slideshow: React.FC<SlideProps> = ({ slides }) => {
 					</div>
 				</div>
 				<div className={styles.right}>
-					<button onClick={goToNextSlide} className={styles.button}>
+					<button onClick={goToNextSlide}>
 						<Image src={right} alt=""></Image>
 					</button>
 				</div>
@@ -104,6 +104,7 @@ const Slideshow: React.FC<SlideProps> = ({ slides }) => {
 				onInput={handleInputChange}
 				onKeyDown={handleKeyPress}
 			/>
+			{answers.length > 6 ? <ResultPanel answersRadical={answers} /> : null}
 		</div>
 	);
 };
