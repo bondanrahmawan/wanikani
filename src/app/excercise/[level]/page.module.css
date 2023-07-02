@@ -49,15 +49,21 @@
   display: flex;
 }
 
+.result {
+  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .headerSection {
-  margin-top: 25px;
-  margin-left: 10px;
-  margin-right: 10px;
-  padding-left: 20px;
   font-weight: 300;
   font-size: 32px;
   background-color: #e1e1e1;
+  width: 500px;
+
   color: #000;
+  text-align: center;
 }
 
 .panelLong {
@@ -66,35 +72,48 @@
 }
 
 .cardKotoba {
-  background-color: #AA00FF;
+  background-color: #0088FF;
   
-  width: 750px;
+  width: 1000px;
   height: 60px;
-  margin-left: 10px;
   margin-top: 10px;
 
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
+}
+
+.cardKotoba.header {
+  background-color: #3c3c3c;
+  color: #e1e1e1;
 }
 
 .titleBoxLong {
   color: white;
+  width: 500px;
+
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items:flex-end;
 }
 
-.titleLong {
-  padding-right: 10px;
-  color: white;
+.meaning, .answer {
+  height: 100%;
+  width: 250px;
+
   display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.correct {
+  background-color: #88cc00;
+}
+
+.incorrect {
+  background-color: #ff0033;
 }
 
 .charactersLong {
   padding-left: 10px;
-	width: 500px;
+	width: 400px;
   height: 60px;
 	font-size: 40px;
   display: flex;

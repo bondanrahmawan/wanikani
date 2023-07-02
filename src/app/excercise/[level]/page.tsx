@@ -128,8 +128,15 @@ const ResultPanel: React.FC<PanelProps> = ({ answersRadical }) => {
 	);
 
 	const finalComponent = (
-		<div>
+		<div className={styles.result}>
 			<h2 className={styles.headerSection}>Radical Excercise Result</h2>
+			<div className={styles.cardKotoba + " " + styles.header}>
+				<span className={styles.charactersLong}>Character</span>
+				<span className={styles.titleBoxLong}>
+					<span className={styles.meaning}>Meaning</span>
+					<span className={styles.answer}>Answer</span>
+				</span>
+			</div>
 			<div className={styles.panelLong}>{components}</div>
 		</div>
 	);
@@ -144,13 +151,15 @@ type CardProps = {
 };
 
 const RadicalCard: React.FC<CardProps> = ({ character, slug, answer }) => {
+	const answerStyle = slug === answer ? styles.correct : styles.incorrect;
+
 	return (
-		<span className={styles.cardKotoba}>
+		<div className={styles.cardKotoba}>
 			<span className={styles.charactersLong}>{character}</span>
 			<span className={styles.titleBoxLong}>
-				<span className={styles.titleLong}>{slug}</span>
-				<span className={styles.titleLong}>{answer}</span>
+				<span className={styles.meaning + " " + styles.correct}>{slug}</span>
+				<span className={styles.answer + " " + answerStyle}>{answer}</span>
 			</span>
-		</span>
+		</div>
 	);
 };
