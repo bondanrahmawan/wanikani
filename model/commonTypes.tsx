@@ -70,6 +70,26 @@ export type Kanji = {
 	};
 };
 
+export type KanjiExercise = {
+	id: number;
+	data: {
+		characters: string;
+		readings: Array<KanjiReading>;
+		readingAnswer: string;
+		meanings: Array<KanjiMeaning>;
+		meaningAnswer: string;
+	};
+};
+
+export type ExerciseModel = {
+	id: number;
+	data: {
+		characters: string;
+		question: Array<string>;
+		answer: string;
+	};
+};
+
 export type Kana = {
 	id: number;
 	data: {

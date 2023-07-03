@@ -1,6 +1,13 @@
 "use client";
 import { useEffect, useState, ChangeEvent, KeyboardEvent } from "react";
-import { RadicalExercise } from "../../../../model/commonTypes";
+import { useSearchParams } from "next/navigation";
+import {
+	RadicalExercise,
+	KanjiExercise,
+	ExerciseModel,
+	Radical,
+} from "../../../../model/commonTypes";
+import ResultPanel from "./result";
 import Image from "next/image";
 import styles from "./page.module.css";
 import home from "../../../asset/home-dark.png";
@@ -9,7 +16,11 @@ import right from "../../../asset/right.png";
 import up from "../../../asset/up.png";
 
 export default function Page({ params }: { params: { level: string } }) {
+	const searchParams = useSearchParams();
+
 	const [radicals, setRadicals] = useState<RadicalExercise[]>([]);
+	const [kanjis, setKanjis] = useState<KanjiExercise[]>([]);
+	const [materials, setMaterials] = useState<ExerciseModel[]>([]);
 
 	useEffect(() => {
 		const fetchRadical = async () => {
@@ -18,14 +29,14 @@ export default function Page({ params }: { params: { level: string } }) {
 					"http://localhost:3000/api/level/" + params.level + "/radical"
 				);
 				const data: RadicalExercise[] = await response.json();
-				setRadicals(
-					data.filter(
-						(radical) =>
-							radical.data.characters != null &&
-							radical.data.characters != undefined &&
-							radical.data.characters.trim() != ""
-					)
+				const tempRadical = data.filter(
+					(radical) =>
+						radical.data.characters != null &&
+						radical.data.characters != undefined &&
+						radical.data.characters.trim() != ""
 				);
+
+				setRadicals(tempRadical);
 			} catch (err) {
 				console.error("Error fetching users:", err);
 			}
@@ -58,15 +69,11 @@ const Slideshow: React.FC<SlideProps> = ({ slides, level }) => {
 	const [isInvalid, setIsInvalid] = useState(false);
 
 	const goToNextSlide = () => {
-		// while (!isValidString(slides[currentSlide].data.answer)) {
 		setCurrentSlide(currentSlide === slides.length - 1 ? 0 : currentSlide + 1);
-		// }
 	};
 
 	const goToPreviousSlide = () => {
-		// while (!isValidString(slides[currentSlide].data.answer)) {
 		setCurrentSlide(currentSlide === 0 ? slides.length - 1 : currentSlide - 1);
-		// }
 	};
 
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -96,8 +103,6 @@ const Slideshow: React.FC<SlideProps> = ({ slides, level }) => {
 		isValidString(slides[currentSlide].data.answer)
 			? setInputValue(slides[currentSlide].data.answer)
 			: setInputValue("");
-		console.log(answers);
-		console.log(answers.length);
 	}, [currentSlide]);
 
 	return (
@@ -124,6 +129,7 @@ const Slideshow: React.FC<SlideProps> = ({ slides, level }) => {
 							</button>
 						</div>
 						<div className={styles.card}>
+							<div className={styles.score}>{answers.length + "/" + size}</div>
 							<div className={styles.characters}>
 								{slides[currentSlide].data.characters}
 							</div>
@@ -146,63 +152,6 @@ const Slideshow: React.FC<SlideProps> = ({ slides, level }) => {
 					/>
 				</div>
 			)}
-		</div>
-	);
-};
-
-type PanelProps = {
-	answersRadical: Array<RadicalExercise>;
-};
-
-const ResultPanel: React.FC<PanelProps> = ({ answersRadical }) => {
-	const components: Array<JSX.Element> = [];
-
-	answersRadical.sort((a, b) => a.id - b.id);
-
-	answersRadical.forEach((k) =>
-		components.push(
-			<RadicalCard
-				key={k.id}
-				character={k.data.characters}
-				slug={k.data.slug}
-				answer={k.data.answer}
-			/>
-		)
-	);
-
-	const finalComponent = (
-		<div className={styles.result}>
-			<h2 className={styles.headerSection}>Exercise Result</h2>
-			<div className={styles.cardKotoba + " " + styles.header}>
-				<span className={styles.charactersLong}>Character</span>
-				<span className={styles.titleBoxLong}>
-					<span className={styles.meaning}>Meaning</span>
-					<span className={styles.answer}>Answer</span>
-				</span>
-			</div>
-			<div className={styles.panelLong}>{components}</div>
-		</div>
-	);
-
-	return finalComponent;
-};
-
-type CardProps = {
-	character: string;
-	slug: string;
-	answer: string;
-};
-
-const RadicalCard: React.FC<CardProps> = ({ character, slug, answer }) => {
-	const answerStyle = slug === answer ? styles.correct : styles.incorrect;
-
-	return (
-		<div className={styles.cardKotoba}>
-			<span className={styles.charactersLong}>{character}</span>
-			<span className={styles.titleBoxLong}>
-				<span className={styles.meaning + " " + styles.correct}>{slug}</span>
-				<span className={styles.answer + " " + answerStyle}>{answer}</span>
-			</span>
 		</div>
 	);
 };
