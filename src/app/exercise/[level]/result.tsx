@@ -1,21 +1,21 @@
-import { RadicalExercise } from "../../../../model/commonTypes";
+import { ExerciseModel, RadicalExercise } from "../../../../model/commonTypes";
 import styles from "./page.module.css";
 
 type ResultPanelProps = {
-	answersRadical: Array<RadicalExercise>;
+	answers: Array<ExerciseModel>;
 };
 
-const ResultPanel: React.FC<ResultPanelProps> = ({ answersRadical }) => {
+const ResultPanel: React.FC<ResultPanelProps> = ({ answers }) => {
 	const components: Array<JSX.Element> = [];
 
-	answersRadical.sort((a, b) => a.id - b.id);
+	answers.sort((a, b) => a.id - b.id);
 
-	answersRadical.forEach((k) =>
+	answers.forEach((k) =>
 		components.push(
 			<RadicalCard
 				key={k.id}
 				character={k.data.characters}
-				slug={k.data.slug}
+				slug={k.data.question.join(" ")}
 				answer={k.data.answer}
 			/>
 		)

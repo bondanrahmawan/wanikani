@@ -83,6 +83,8 @@ export type KanjiExercise = {
 
 export type ExerciseModel = {
 	id: number;
+	materialType: string;
+	questionType: string;
 	data: {
 		characters: string;
 		question: Array<string>;

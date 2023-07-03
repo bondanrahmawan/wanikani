@@ -1,14 +1,10 @@
 "use client";
 import { useEffect, useState, ChangeEvent, KeyboardEvent } from "react";
 import { useSearchParams } from "next/navigation";
-import {
-	RadicalExercise,
-	KanjiExercise,
-	ExerciseModel,
-	Radical,
-} from "../../../../model/commonTypes";
+import { ExerciseModel, Radical, Kanji } from "../../../../model/commonTypes";
 import ResultPanel from "./result";
 import Image from "next/image";
+import { zenkakuGothicAntique } from "@/asset/fonts";
 import styles from "./page.module.css";
 import home from "../../../asset/home-dark.png";
 import left from "../../../asset/left.png";
@@ -18,25 +14,96 @@ import up from "../../../asset/up.png";
 export default function Page({ params }: { params: { level: string } }) {
 	const searchParams = useSearchParams();
 
-	const [radicals, setRadicals] = useState<RadicalExercise[]>([]);
-	const [kanjis, setKanjis] = useState<KanjiExercise[]>([]);
 	const [materials, setMaterials] = useState<ExerciseModel[]>([]);
+
+	function convertRadical(radicals: Array<Radical>): Array<ExerciseModel> {
+		return radicals.map((radical) => {
+			return {
+				id: radical.id,
+				materialType: "radical",
+				questionType: "meaning",
+				data: {
+					characters: radical.data.characters,
+					question: [radical.data.slug],
+					answer: "",
+				},
+			};
+		});
+	}
+
+	function convertKanji(kanjis: Array<Kanji>): Array<Array<ExerciseModel>> {
+		return kanjis.map((kanji) => {
+			const meaning: ExerciseModel = {
+				id: kanji.id,
+				materialType: "kanji",
+				questionType: "meaning",
+				data: {
+					characters: kanji.data.characters,
+					question: kanji.data.meanings
+						.filter((meaning) => meaning.accepted_answer)
+						.map((meaning) => {
+							return meaning.meaning;
+						}),
+					answer: "",
+				},
+			};
+
+			const reading: ExerciseModel = {
+				id: kanji.id,
+				materialType: "kanji",
+				questionType: "reading",
+				data: {
+					characters: kanji.data.characters,
+					question: kanji.data.readings
+						.filter((reading) => reading.accepted_answer)
+						.map((reading) => {
+							return reading.reading;
+						}),
+					answer: "",
+				},
+			};
+
+			return [reading, meaning];
+		});
+	}
+
+	async function fetchAndMapRadicalData(): Promise<Array<ExerciseModel>> {
+		const response = await fetch(
+			"http://localhost:3000/api/level/" + params.level + "/radical"
+		);
+		const data: Radical[] = await response.json();
+		const tempRadical = data.filter(
+			(radical) =>
+				radical.data.characters != null &&
+				radical.data.characters != undefined &&
+				radical.data.characters.trim() != ""
+		);
+
+		return convertRadical(tempRadical);
+	}
+
+	async function fetchAndMapKanjiData(): Promise<Array<ExerciseModel>> {
+		const response = await fetch(
+			"http://localhost:3000/api/level/" + params.level + "/kanji"
+		);
+		const data: Kanji[] = await response.json();
+
+		return convertKanji(data).flat();
+	}
 
 	useEffect(() => {
 		const fetchRadical = async () => {
 			try {
-				const response = await fetch(
-					"http://localhost:3000/api/level/" + params.level + "/radical"
-				);
-				const data: RadicalExercise[] = await response.json();
-				const tempRadical = data.filter(
-					(radical) =>
-						radical.data.characters != null &&
-						radical.data.characters != undefined &&
-						radical.data.characters.trim() != ""
-				);
+				var tempMaterials: Array<ExerciseModel> = [];
+				if (searchParams.get("radical")) {
+					tempMaterials = tempMaterials.concat(await fetchAndMapRadicalData());
+				}
 
-				setRadicals(tempRadical);
+				if (searchParams.get("kanji")) {
+					tempMaterials = tempMaterials.concat(await fetchAndMapKanjiData());
+				}
+
+				setMaterials(tempMaterials);
 			} catch (err) {
 				console.error("Error fetching users:", err);
 			}
@@ -47,8 +114,8 @@ export default function Page({ params }: { params: { level: string } }) {
 
 	return (
 		<div className="app">
-			{radicals.length > 0 ? (
-				<Slideshow slides={radicals} level={params.level} />
+			{materials.length > 0 ? (
+				<Slideshow slides={materials} level={params.level} />
 			) : (
 				<div />
 			)}
@@ -57,13 +124,13 @@ export default function Page({ params }: { params: { level: string } }) {
 }
 
 type SlideProps = {
-	slides: Array<RadicalExercise>;
+	slides: Array<ExerciseModel>;
 	level: string;
 };
 
 const Slideshow: React.FC<SlideProps> = ({ slides, level }) => {
 	const size = slides.length;
-	const [answers, setAnswers] = useState<RadicalExercise[]>([]);
+	const [answers, setAnswers] = useState<ExerciseModel[]>([]);
 	const [currentSlide, setCurrentSlide] = useState(0);
 	const [inputValue, setInputValue] = useState<string>("");
 	const [isInvalid, setIsInvalid] = useState(false);
@@ -119,10 +186,15 @@ const Slideshow: React.FC<SlideProps> = ({ slides, level }) => {
 				<h1>Level: {level}</h1>
 			</div>
 			{answers.length >= size ? (
-				<ResultPanel answersRadical={answers} />
+				<ResultPanel answers={answers} />
 			) : (
 				<div className={styles.page}>
-					<div className={styles.slide}>
+					<div
+						className={
+							slides[currentSlide].materialType === "radical"
+								? styles.slide + " " + styles.radical
+								: styles.slide + " " + styles.kanji
+						}>
 						<div className={styles.left}>
 							<button onClick={goToPreviousSlide}>
 								<Image src={left} alt=""></Image>
@@ -130,7 +202,10 @@ const Slideshow: React.FC<SlideProps> = ({ slides, level }) => {
 						</div>
 						<div className={styles.card}>
 							<div className={styles.score}>{answers.length + "/" + size}</div>
-							<div className={styles.characters}>
+							<div
+								className={
+									styles.characters + " " + zenkakuGothicAntique.className
+								}>
 								{slides[currentSlide].data.characters}
 							</div>
 						</div>
@@ -139,6 +214,14 @@ const Slideshow: React.FC<SlideProps> = ({ slides, level }) => {
 								<Image src={right} alt=""></Image>
 							</button>
 						</div>
+					</div>
+					<div
+						className={
+							slides[currentSlide].questionType === "meaning"
+								? styles.questionType + " " + styles.meaning
+								: styles.questionType + " " + styles.reading
+						}>
+						{slides[currentSlide].questionType}
 					</div>
 					<input
 						className={
