@@ -16,9 +16,7 @@ const RadicalPanel: React.FC<PanelProps> = ({ level }) => {
 	useEffect(() => {
 		const fetchRadical = async () => {
 			try {
-				const response = await fetch(
-					"http://localhost:3000/api/level/" + level + "/radical"
-				);
+				const response = await fetch("/api/level/" + level + "/radical");
 				const data = await response.json();
 				setRadicals(data);
 			} catch (err) {

@@ -24,7 +24,7 @@ interface CardProps {
 const RectangularCard: React.FC<CardProps> = ({ title }) => {
 	return (
 		<div className={styles.card}>
-			<a href={"http://localhost:3000/level/" + title} className={styles.title}>
+			<a href={"/level/" + title} className={styles.title}>
 				{title}
 			</a>
 		</div>

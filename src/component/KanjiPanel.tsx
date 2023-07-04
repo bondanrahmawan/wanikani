@@ -16,9 +16,7 @@ const KanjiPanel: React.FC<PanelProps> = ({ level }) => {
 	useEffect(() => {
 		const fetchUsers = async () => {
 			try {
-				const response = await fetch(
-					"http://localhost:3000/api/level/" + level + "/kanji"
-				);
+				const response = await fetch("/api/level/" + level + "/kanji");
 				const data = await response.json();
 				setKanji(data);
 			} catch (err) {
