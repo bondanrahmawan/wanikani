@@ -24,20 +24,18 @@ file_path = "resourceAll.json"
 
 # Open the file in read mode
 with open(file_path, "r") as file:
-    # Load the JSON data as a list of objects
     data = json.load(file)
 
-# Access and iterate over each JSON object
 for obj in data:
     # Access specific properties of each object
     if obj["object"] == "radical":
         result = collectionRadical.insert_one(createRadicalDocument(obj))
-    # elif obj["object"] == "kanji":
-    #     result = collectionKanji.insert_one(createKanjiDocument(obj))
-    # elif obj["object"] == "vocabulary":
-    #     result = collectionKotobaKanji.insert_one(createKotobaKanjiDocument(obj))
-    # else:
-    #     result = collectionKotobaKana.insert_one(createKotobaKanaDocument(obj))
+    elif obj["object"] == "kanji":
+        result = collectionKanji.insert_one(createKanjiDocument(obj))
+    elif obj["object"] == "vocabulary":
+        result = collectionKotobaKanji.insert_one(createKotobaKanjiDocument(obj))
+    else:
+        result = collectionKotobaKana.insert_one(createKotobaKanaDocument(obj))
 
 # Close the connection
 client.close()
