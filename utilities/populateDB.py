@@ -8,10 +8,12 @@ from documentMapperService import (
 )
 
 # Set up the MongoDB connection
-client = MongoClient("mongodb://localhost:27017")
+client = MongoClient(
+    "mongodb+srv://admin:<password:Administrator>@cluster0.1dj9w0e.mongodb.net/"
+)
 
 # Access a specific database
-db = client["admin"]
+db = client["wanikani"]
 
 # Access a specific collection within the database
 collectionRadical = db["radical"]
