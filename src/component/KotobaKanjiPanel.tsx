@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Kanji } from "../../model/commonTypes";
+import Button from "./button";
 import styles from "./panel.module.css";
 
 type PanelProps = {
@@ -31,7 +32,6 @@ const KotobaKanjiPanel: React.FC<PanelProps> = ({ level }) => {
 	kotobaKanji.forEach((k) =>
 		components.push(
 			<Card
-				id={k.id}
 				key={k.id}
 				characters={k.data.characters}
 				reading={k.data.readings[0].reading}
@@ -43,7 +43,18 @@ const KotobaKanjiPanel: React.FC<PanelProps> = ({ level }) => {
 
 	const finalComponent = (
 		<div>
-			<h2 className={styles.headerSection}>Kotoba Kanji</h2>
+			<div className={styles.headerSection}>
+				<div className={styles.panelTitle}>
+					<h2>Kotoba Kanji</h2>
+				</div>
+				<h2>{kotobaKanji.length}</h2>
+				<div className={styles.panelButton}>
+					<Button
+						text="Practice"
+						url={"/exercise/" + level + "?kotobakanji=true"}
+					/>
+				</div>
+			</div>
 			<div className={styles.panelLong}>{components}</div>
 		</div>
 	);
@@ -52,7 +63,6 @@ const KotobaKanjiPanel: React.FC<PanelProps> = ({ level }) => {
 };
 
 type CardProps = {
-	id: number;
 	characters: string;
 	reading: string;
 	meaning: string;
@@ -60,7 +70,6 @@ type CardProps = {
 };
 
 const Card: React.FC<CardProps> = ({
-	id,
 	characters,
 	reading,
 	meaning,

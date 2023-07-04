@@ -21,6 +21,10 @@
   background-color: #FF00AA;
 }
 
+.slide.kotoba {
+  background-color: #AA00FF;
+}
+
 .card {
   margin-bottom: 30px;
   width: 100%;
@@ -50,13 +54,13 @@
   width: 100%;
 }
 
-.score {
+.slideInformation {
   width: 100%;
 	font-size: 16px;
   
   padding-right: 10px;
   display: flex;
-  justify-content: right;
+  justify-content: space-between;
 }
 
 .characters {
@@ -185,4 +189,31 @@
   height: 60px;
 	font-size: 40px;
   display: flex;
+}
+
+.finishBar {
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.finishButton {
+  padding: 10px 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #1A1A1A;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+
+  height: 60px;
+  width: 150px;
+}
+
+.finishButton:hover {
+  background-color: #3C3C3C;
+}
+
+.finishButton:active {
+  background-color: #555;
 }

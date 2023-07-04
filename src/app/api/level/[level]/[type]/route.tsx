@@ -11,7 +11,7 @@ export async function GET(
 	{ params }: { params: { level: string; type: string } }
 ) {
 	const level = params.level;
-	const type = params.type;
+	const type = params.type.toLowerCase();
 	await connectDB();
 
 	const query: any = { "data.level": level };
@@ -25,7 +25,7 @@ export async function GET(
 			result = await KanjiModel.find(query);
 		} else if (type == "kotobakanji") {
 			result = await KotobaKanjiModel.find(query);
-		} else {
+		} else if (type == "kotobakana") {
 			result = await KotobaKanaModel.find(query);
 		}
 	} catch (error) {

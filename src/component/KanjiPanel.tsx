@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Kanji } from "../../model/commonTypes";
+import Button from "./button";
 import styles from "./panel.module.css";
 
 type PanelProps = {
@@ -31,7 +32,6 @@ const KanjiPanel: React.FC<PanelProps> = ({ level }) => {
 	kanji.forEach((k) =>
 		components.push(
 			<Card
-				id={k.id}
 				key={k.id}
 				characters={k.data.characters}
 				reading={k.data.readings[0].reading}
@@ -43,7 +43,15 @@ const KanjiPanel: React.FC<PanelProps> = ({ level }) => {
 
 	const finalComponent = (
 		<div>
-			<h2 className={styles.headerSection}>Kanji</h2>
+			<div className={styles.headerSection}>
+				<div className={styles.panelTitle}>
+					<h2>Kanji</h2>
+				</div>
+				<h2>{kanji.length}</h2>
+				<div className={styles.panelButton}>
+					<Button text="Practice" url={"/exercise/" + level + "?kanji=true"} />
+				</div>
+			</div>
 			<div className={styles.panel}>{components}</div>
 		</div>
 	);
@@ -52,7 +60,6 @@ const KanjiPanel: React.FC<PanelProps> = ({ level }) => {
 };
 
 type CardProps = {
-	id: number;
 	characters: string;
 	reading: string;
 	meaning: string;
@@ -60,14 +67,16 @@ type CardProps = {
 };
 
 const Card: React.FC<CardProps> = ({
-	id,
 	characters,
 	reading,
 	meaning,
 	docUrl,
 }) => {
 	return (
-		<a href={docUrl} target="_blank" className={styles.cardKanji}>
+		<a
+			href={docUrl}
+			target="_blank"
+			className={styles.card + " " + styles.kanji}>
 			<div className={styles.characters}>{characters}</div>
 			<div className={styles.title}>{reading}</div>
 			<div className={styles.title}>

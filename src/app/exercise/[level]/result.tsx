@@ -15,7 +15,7 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ answers }) => {
 			<RadicalCard
 				key={k.id}
 				character={k.data.characters}
-				slug={k.data.question.join(" ")}
+				slug={k.data.question}
 				answer={k.data.answer}
 			/>
 		)
@@ -40,18 +40,25 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ answers }) => {
 
 type CardProps = {
 	character: string;
-	slug: string;
+	slug: Array<string>;
 	answer: string;
 };
 
 const RadicalCard: React.FC<CardProps> = ({ character, slug, answer }) => {
-	const answerStyle = slug === answer ? styles.correct : styles.incorrect;
+	const newSlug = slug.map((answerKey) => {
+		return answerKey.toLowerCase();
+	});
+	const answerStyle = newSlug.includes(answer)
+		? styles.correct
+		: styles.incorrect;
 
 	return (
 		<div className={styles.cardKotoba}>
 			<span className={styles.charactersLong}>{character}</span>
 			<span className={styles.titleBoxLong}>
-				<span className={styles.meaning + " " + styles.correct}>{slug}</span>
+				<span className={styles.meaning + " " + styles.correct}>
+					{newSlug.join(", ")}
+				</span>
 				<span className={styles.answer + " " + answerStyle}>{answer}</span>
 			</span>
 		</div>

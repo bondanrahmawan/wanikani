@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Kana } from "../../model/commonTypes";
+import Button from "./button";
 import styles from "./panel.module.css";
 
 type PanelProps = {
@@ -31,17 +32,28 @@ const KotobaKanaPanel: React.FC<PanelProps> = ({ level }) => {
 	kotobaKana.forEach((k) =>
 		components.push(
 			<Card
-				id={k.id}
 				key={k.id}
 				characters={k.data.characters}
 				meaning={k.data.meanings[0].meaning}
+				docUrl={k.data.document_url}
 			/>
 		)
 	);
 
 	const finalComponent = (
 		<div>
-			<h2 className={styles.headerSection}>Kotoba Kana</h2>
+			<div className={styles.headerSection}>
+				<div className={styles.panelTitle}>
+					<h2>Kotoba Kana</h2>
+				</div>
+				<h2>{kotobaKana.length}</h2>
+				<div className={styles.panelButton}>
+					<Button
+						text="Practice"
+						url={"/exercise/" + level + "?kotobakana=true"}
+					/>
+				</div>
+			</div>
 			<div className={styles.panelLong}>{components}</div>
 		</div>
 	);
@@ -50,14 +62,14 @@ const KotobaKanaPanel: React.FC<PanelProps> = ({ level }) => {
 };
 
 type CardProps = {
-	id: number;
 	characters: string;
 	meaning: string;
+	docUrl: string;
 };
 
-const Card: React.FC<CardProps> = ({ id, characters, meaning }) => {
+const Card: React.FC<CardProps> = ({ characters, meaning, docUrl }) => {
 	return (
-		<a href={"" + id} className={styles.cardKotoba}>
+		<a href={docUrl} target="_blank" className={styles.cardKotoba}>
 			<span className={styles.charactersLong}>{characters}</span>
 			<span className={styles.titleBoxLong}>
 				<span className={styles.titleLong}>{meaning}</span>

@@ -1,7 +1,12 @@
 "use client";
 import { useEffect, useState, ChangeEvent, KeyboardEvent } from "react";
 import { useSearchParams } from "next/navigation";
-import { ExerciseModel, Radical, Kanji } from "../../../../model/commonTypes";
+import {
+	ExerciseModel,
+	Radical,
+	Kanji,
+	Kana,
+} from "../../../../model/commonTypes";
 import ResultPanel from "./result";
 import Image from "next/image";
 import { zenkakuGothicAntique } from "@/asset/fonts";
@@ -67,6 +72,25 @@ export default function Page({ params }: { params: { level: string } }) {
 		});
 	}
 
+	function convertKana(kanas: Array<Kana>): Array<ExerciseModel> {
+		return kanas.map((kana) => {
+			return {
+				id: kana.id,
+				materialType: "kana",
+				questionType: "meaning",
+				data: {
+					characters: kana.data.characters,
+					question: kana.data.meanings
+						.filter((meaning) => meaning.accepted_answer)
+						.map((meaning) => {
+							return meaning.meaning;
+						}),
+					answer: "",
+				},
+			};
+		});
+	}
+
 	async function fetchAndMapRadicalData(): Promise<Array<ExerciseModel>> {
 		const response = await fetch(
 			"http://localhost:3000/api/level/" + params.level + "/radical"
@@ -91,6 +115,24 @@ export default function Page({ params }: { params: { level: string } }) {
 		return convertKanji(data).flat();
 	}
 
+	async function fetchAndMapKotobaKanjiData(): Promise<Array<ExerciseModel>> {
+		const response = await fetch(
+			"http://localhost:3000/api/level/" + params.level + "/kotobakanji"
+		);
+		const data: Kanji[] = await response.json();
+
+		return convertKanji(data).flat();
+	}
+
+	async function fetchAndMapKotobaKanaData(): Promise<Array<ExerciseModel>> {
+		const response = await fetch(
+			"http://localhost:3000/api/level/" + params.level + "/kotobakana"
+		);
+		const data: Kana[] = await response.json();
+
+		return convertKana(data);
+	}
+
 	useEffect(() => {
 		const fetchRadical = async () => {
 			try {
@@ -101,6 +143,27 @@ export default function Page({ params }: { params: { level: string } }) {
 
 				if (searchParams.get("kanji")) {
 					tempMaterials = tempMaterials.concat(await fetchAndMapKanjiData());
+				}
+
+				if (searchParams.get("kotoba")) {
+					tempMaterials = tempMaterials.concat(
+						await fetchAndMapKotobaKanjiData()
+					);
+					tempMaterials = tempMaterials.concat(
+						await fetchAndMapKotobaKanaData()
+					);
+				}
+
+				if (searchParams.get("kotobakanji")) {
+					tempMaterials = tempMaterials.concat(
+						await fetchAndMapKotobaKanjiData()
+					);
+				}
+
+				if (searchParams.get("kotobakana")) {
+					tempMaterials = tempMaterials.concat(
+						await fetchAndMapKotobaKanaData()
+					);
 				}
 
 				setMaterials(tempMaterials);
@@ -130,10 +193,11 @@ type SlideProps = {
 
 const Slideshow: React.FC<SlideProps> = ({ slides, level }) => {
 	const size = slides.length;
-	const [answers, setAnswers] = useState<ExerciseModel[]>([]);
 	const [currentSlide, setCurrentSlide] = useState(0);
+	const [answered, setAnswered] = useState(0);
 	const [inputValue, setInputValue] = useState<string>("");
 	const [isInvalid, setIsInvalid] = useState(false);
+	const [isFinished, setIsFinished] = useState(false);
 
 	const goToNextSlide = () => {
 		setCurrentSlide(currentSlide === slides.length - 1 ? 0 : currentSlide + 1);
@@ -155,7 +219,7 @@ const Slideshow: React.FC<SlideProps> = ({ slides, level }) => {
 				slides[currentSlide].data.answer = inputValue;
 				setInputValue("");
 				goToNextSlide();
-				setAnswers([...answers, slides[currentSlide]]);
+				setAnswered(answered + 1);
 			} else {
 				setIsInvalid(true);
 			}
@@ -170,6 +234,9 @@ const Slideshow: React.FC<SlideProps> = ({ slides, level }) => {
 		isValidString(slides[currentSlide].data.answer)
 			? setInputValue(slides[currentSlide].data.answer)
 			: setInputValue("");
+		if (answered >= size) {
+			setIsFinished(true);
+		}
 	}, [currentSlide]);
 
 	return (
@@ -185,15 +252,17 @@ const Slideshow: React.FC<SlideProps> = ({ slides, level }) => {
 				</div>
 				<h1>Level: {level}</h1>
 			</div>
-			{answers.length >= size ? (
-				<ResultPanel answers={answers} />
+			{isFinished ? (
+				<ResultPanel answers={slides} />
 			) : (
 				<div className={styles.page}>
 					<div
 						className={
 							slides[currentSlide].materialType === "radical"
 								? styles.slide + " " + styles.radical
-								: styles.slide + " " + styles.kanji
+								: slides[currentSlide].materialType === "kanji"
+								? styles.slide + " " + styles.kanji
+								: styles.slide + " " + styles.kotoba
 						}>
 						<div className={styles.left}>
 							<button onClick={goToPreviousSlide}>
@@ -201,7 +270,10 @@ const Slideshow: React.FC<SlideProps> = ({ slides, level }) => {
 							</button>
 						</div>
 						<div className={styles.card}>
-							<div className={styles.score}>{answers.length + "/" + size}</div>
+							<div className={styles.slideInformation}>
+								<div>Page: {currentSlide + 1 + "/" + size}</div>
+								<div>Answered: {answered + "/" + size}</div>
+							</div>
 							<div
 								className={
 									styles.characters + " " + zenkakuGothicAntique.className
@@ -233,6 +305,15 @@ const Slideshow: React.FC<SlideProps> = ({ slides, level }) => {
 						onKeyDown={handleKeyPress}
 						onAnimationEnd={() => setIsInvalid(false)}
 					/>
+					<div className={styles.finishBar}>
+						<button
+							className={styles.finishButton}
+							onClick={() => {
+								setIsFinished(true);
+							}}>
+							Finish
+						</button>
+					</div>
 				</div>
 			)}
 		</div>

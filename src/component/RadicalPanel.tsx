@@ -45,8 +45,16 @@ const RadicalPanel: React.FC<PanelProps> = ({ level }) => {
 	const finalComponent = (
 		<div>
 			<div className={styles.headerSection}>
-				<h2>Radical</h2>
-				<Button url={"/exercise/" + level} />
+				<div className={styles.panelTitle}>
+					<h2>Radical</h2>
+				</div>
+				<h2>{radicals.length}</h2>
+				<div className={styles.panelButton}>
+					<Button
+						text="Practice"
+						url={"/exercise/" + level + "?radical=true"}
+					/>
+				</div>
 			</div>
 			<div className={styles.panel}>{components}</div>
 		</div>
@@ -63,7 +71,10 @@ type CardProps = {
 
 const Card: React.FC<CardProps> = ({ slug, characters, docUrl }) => {
 	return (
-		<a href={docUrl} target="_blank" className={styles.card}>
+		<a
+			href={docUrl}
+			target="_blank"
+			className={styles.card + " " + styles.radical}>
 			<div className={styles.characters}>{characters}</div>
 			<div className={styles.meaningKanji}>
 				<div className={styles.meaningKanjiInner}>{slug}</div>

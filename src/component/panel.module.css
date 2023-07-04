@@ -13,6 +13,17 @@
   align-items: center;
 }
 
+.panelTitle {
+  width: 250px;
+}
+
+.panelButton {
+  width: 250px;
+
+  display: flex;
+  flex-direction: row-reverse;
+}
+
 .panel {
   display: flex;
   flex-wrap: wrap;
@@ -25,9 +36,7 @@
 }
 
 .card {
-  background-color: #0088FF;
-
-  width: 120px;
+  width: 100px;
   height: 150px;
   margin: 10px;
 
@@ -35,22 +44,19 @@
   flex-direction: column;
 }
 
-.cardKanji {
-  background-color: #FF00AA;
-  
-  width: 120px;
-  height: 150px;
-  margin: 10px;
+.card.radical {
+  background-color: #0088FF;
+}
 
-  display: flex;
-  flex-direction: column;
+.card.kanji {
+  background-color: #FF00AA;
 }
 
 .cardKotoba {
   background-color: #AA00FF;
   
-  width: 750px;
-  height: 60px;
+  width: 900px;
+  height: 50px;
   margin-left: 10px;
   margin-top: 10px;
 
@@ -73,8 +79,17 @@
   justify-content: center;
 }
 
+.titleInner {
+  color: white;
+  font-size: 16px;
+
+  max-width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .meaningKanji {
-  padding-top: 10px;
   color: white;
   display: flex;
   justify-content: center;
@@ -84,7 +99,7 @@
   color: white;
   font-size: 16px;
 
-  max-width: 100px;
+  max-width: 80px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -108,14 +123,16 @@
   padding-left: 10px;
 	width: 500px;
   height: 60px;
-	font-size: 40px;
+	font-size: 30px;
+  
   display: flex;
+  align-items: center;
 }
 
 .rectangularButton {
   padding: 5px 5px;
   margin: 10px 10px;
-  background-color: #007bff;
+  background-color: #294ddb;
   border: none;
   border-radius: 4px;
   cursor: pointer;
