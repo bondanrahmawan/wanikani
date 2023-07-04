@@ -92,9 +92,7 @@ export default function Page({ params }: { params: { level: string } }) {
 	}
 
 	async function fetchAndMapRadicalData(): Promise<Array<ExerciseModel>> {
-		const response = await fetch(
-			"http://localhost:3000/api/level/" + params.level + "/radical"
-		);
+		const response = await fetch("/api/level/" + params.level + "/radical");
 		const data: Radical[] = await response.json();
 		const tempRadical = data.filter(
 			(radical) =>
@@ -107,27 +105,21 @@ export default function Page({ params }: { params: { level: string } }) {
 	}
 
 	async function fetchAndMapKanjiData(): Promise<Array<ExerciseModel>> {
-		const response = await fetch(
-			"http://localhost:3000/api/level/" + params.level + "/kanji"
-		);
+		const response = await fetch("/api/level/" + params.level + "/kanji");
 		const data: Kanji[] = await response.json();
 
 		return convertKanji(data).flat();
 	}
 
 	async function fetchAndMapKotobaKanjiData(): Promise<Array<ExerciseModel>> {
-		const response = await fetch(
-			"http://localhost:3000/api/level/" + params.level + "/kotobakanji"
-		);
+		const response = await fetch("/api/level/" + params.level + "/kotobakanji");
 		const data: Kanji[] = await response.json();
 
 		return convertKanji(data).flat();
 	}
 
 	async function fetchAndMapKotobaKanaData(): Promise<Array<ExerciseModel>> {
-		const response = await fetch(
-			"http://localhost:3000/api/level/" + params.level + "/kotobakana"
-		);
+		const response = await fetch("/api/level/" + params.level + "/kotobakana");
 		const data: Kana[] = await response.json();
 
 		return convertKana(data);
