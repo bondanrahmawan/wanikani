@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState, ChangeEvent, KeyboardEvent } from "react";
 import { useSearchParams } from "next/navigation";
+import Image from "next/image";
+import * as wanakana from "wanakana";
 import {
 	ExerciseModel,
 	Radical,
@@ -8,7 +10,6 @@ import {
 	Kana,
 } from "../../../../model/commonTypes";
 import ResultPanel from "./result";
-import Image from "next/image";
 import { zenkakuGothicAntique } from "@/asset/fonts";
 import styles from "./page.module.css";
 import home from "../../../asset/home-dark.png";
@@ -200,9 +201,15 @@ const Slideshow: React.FC<SlideProps> = ({ slides, level }) => {
 	};
 
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-		const newValue = event.target.value;
 		setIsInvalid(false);
-		setInputValue(newValue);
+		if (slides[currentSlide].questionType === "reading") {
+			const tempLatinText = wanakana.toRomaji(event.target.value, {
+				upcaseKatakana: true,
+			});
+			setInputValue(wanakana.toKana(tempLatinText));
+		} else {
+			setInputValue(event.target.value);
+		}
 	};
 
 	const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
