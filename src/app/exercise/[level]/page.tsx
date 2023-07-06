@@ -2,7 +2,7 @@
 import { useEffect, useState, ChangeEvent, KeyboardEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
-import * as wanakana from "wanakana";
+import { toKana, toRomaji } from "wanakana";
 import {
 	ExerciseModel,
 	Radical,
@@ -203,10 +203,10 @@ const Slideshow: React.FC<SlideProps> = ({ slides, level }) => {
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setIsInvalid(false);
 		if (slides[currentSlide].questionType === "reading") {
-			const tempLatinText = wanakana.toRomaji(event.target.value, {
+			const tempLatinText = toRomaji(event.target.value, {
 				upcaseKatakana: true,
 			});
-			setInputValue(wanakana.toKana(tempLatinText));
+			setInputValue(toKana(tempLatinText));
 		} else {
 			setInputValue(event.target.value);
 		}
