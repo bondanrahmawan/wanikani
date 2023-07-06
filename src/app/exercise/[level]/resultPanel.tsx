@@ -12,7 +12,7 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ answers }) => {
 
 	answers.forEach((k) =>
 		components.push(
-			<RadicalCard
+			<ResultCard
 				key={k.id}
 				character={k.data.characters}
 				slug={k.data.question}
@@ -46,7 +46,7 @@ type CardProps = {
 	materialType: string;
 };
 
-const RadicalCard: React.FC<CardProps> = ({
+const ResultCard: React.FC<CardProps> = ({
 	character,
 	slug,
 	answer,
