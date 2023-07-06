@@ -1,4 +1,4 @@
-import { ExerciseModel, RadicalExercise } from "../../../../model/commonTypes";
+import { ExerciseModel } from "../../../../model/commonTypes";
 import styles from "./page.module.css";
 
 type ResultPanelProps = {
@@ -17,6 +17,7 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ answers }) => {
 				character={k.data.characters}
 				slug={k.data.question}
 				answer={k.data.answer}
+				materialType={k.materialType}
 			/>
 		)
 	);
@@ -42,9 +43,15 @@ type CardProps = {
 	character: string;
 	slug: Array<string>;
 	answer: string;
+	materialType: string;
 };
 
-const RadicalCard: React.FC<CardProps> = ({ character, slug, answer }) => {
+const RadicalCard: React.FC<CardProps> = ({
+	character,
+	slug,
+	answer,
+	materialType,
+}) => {
 	const newSlug = slug.map((answerKey) => {
 		return answerKey.toLowerCase();
 	});
@@ -52,8 +59,15 @@ const RadicalCard: React.FC<CardProps> = ({ character, slug, answer }) => {
 		? styles.correct
 		: styles.incorrect;
 
+	const cardClassName =
+		materialType === "kotoba"
+			? styles.cardResult + " " + styles.kotoba
+			: materialType === "kanji"
+			? styles.cardResult + " " + styles.kanji
+			: styles.cardResult + " " + styles.radical;
+
 	return (
-		<div className={styles.cardKotoba}>
+		<div className={cardClassName}>
 			<span className={styles.charactersLong}>{character}</span>
 			<span className={styles.titleBoxLong}>
 				<span className={styles.meaning + " " + styles.correct}>

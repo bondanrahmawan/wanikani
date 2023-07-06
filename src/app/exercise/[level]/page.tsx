@@ -37,11 +37,16 @@ export default function Page({ params }: { params: { level: string } }) {
 		});
 	}
 
-	function convertKanji(kanjis: Array<Kanji>): Array<Array<ExerciseModel>> {
+	function convertKanji(
+		kanjis: Array<Kanji>,
+		isKotoba: boolean
+	): Array<Array<ExerciseModel>> {
 		return kanjis.map((kanji) => {
+			const materialType = isKotoba ? "kotoba" : "kanji";
+
 			const meaning: ExerciseModel = {
 				id: kanji.id,
-				materialType: "kanji",
+				materialType: materialType,
 				questionType: "meaning",
 				data: {
 					characters: kanji.data.characters,
@@ -56,7 +61,7 @@ export default function Page({ params }: { params: { level: string } }) {
 
 			const reading: ExerciseModel = {
 				id: kanji.id,
-				materialType: "kanji",
+				materialType: materialType,
 				questionType: "reading",
 				data: {
 					characters: kanji.data.characters,
@@ -109,14 +114,14 @@ export default function Page({ params }: { params: { level: string } }) {
 		const response = await fetch("/api/level/" + params.level + "/kanji");
 		const data: Kanji[] = await response.json();
 
-		return convertKanji(data).flat();
+		return convertKanji(data, false).flat();
 	}
 
 	async function fetchAndMapKotobaKanjiData(): Promise<Array<ExerciseModel>> {
 		const response = await fetch("/api/level/" + params.level + "/kotobakanji");
 		const data: Kanji[] = await response.json();
 
-		return convertKanji(data).flat();
+		return convertKanji(data, true).flat();
 	}
 
 	async function fetchAndMapKotobaKanaData(): Promise<Array<ExerciseModel>> {
