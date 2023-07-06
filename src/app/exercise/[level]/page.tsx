@@ -74,7 +74,7 @@ export default function Page({ params }: { params: { level: string } }) {
 		return kanas.map((kana) => {
 			return {
 				id: kana.id,
-				materialType: "kana",
+				materialType: "kotoba",
 				questionType: "meaning",
 				data: {
 					characters: kana.data.characters,
