@@ -3,7 +3,7 @@ import Image from "next/image";
 import { ExerciseModel } from "../../../../model/commonTypes";
 import { toKana, toRomaji } from "wanakana";
 import ResultPanel from "./resultPanel";
-import { zenkakuGothicAntique } from "@/asset/fonts";
+// import { zenkakuGothicAntique } from "@/asset/fonts";
 import styles from "./page.module.css";
 import home from "../../../asset/home-dark.png";
 import left from "../../../asset/left.png";
@@ -46,7 +46,7 @@ const Slideshow: React.FC<SlideshowProps> = ({ slides, level }) => {
 	const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === "Enter") {
 			if (isValidString(inputValue)) {
-				slides[currentSlide].data.answer = inputValue;
+				slides[currentSlide].data.answer = inputValue.trim();
 				setInputValue("");
 				goToNextSlide();
 				setAnswered(answered + 1);
@@ -104,10 +104,7 @@ const Slideshow: React.FC<SlideshowProps> = ({ slides, level }) => {
 								<div>Page: {currentSlide + 1 + "/" + size}</div>
 								<div>Answered: {answered + "/" + size}</div>
 							</div>
-							<div
-								className={
-									styles.characters + " " + zenkakuGothicAntique.className
-								}>
+							<div className={styles.characters}>
 								{slides[currentSlide].data.characters}
 							</div>
 						</div>
