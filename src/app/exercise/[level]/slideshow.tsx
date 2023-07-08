@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ExerciseModel } from "../../../../model/commonTypes";
 import { toKana, toRomaji } from "wanakana";
 import ResultPanel from "./resultPanel";
+import { hiraginoKaku } from "@/asset/fonts";
 import styles from "./page.module.css";
 import home from "../../../asset/home-dark.png";
 import left from "../../../asset/left.png";
@@ -103,7 +104,7 @@ const Slideshow: React.FC<SlideshowProps> = ({ slides, level }) => {
 								<div>Page: {currentSlide + 1 + "/" + size}</div>
 								<div>Answered: {answered + "/" + size}</div>
 							</div>
-							<div className={styles.characters}>
+							<div className={styles.characters + " " + hiraginoKaku.className}>
 								{slides[currentSlide].data.characters}
 							</div>
 						</div>
@@ -122,9 +123,7 @@ const Slideshow: React.FC<SlideshowProps> = ({ slides, level }) => {
 						{slides[currentSlide].questionType}
 					</div>
 					<input
-						className={
-							isInvalid ? styles.input + " " + styles.invalid : styles.input
-						}
+						className={isInvalid ? styles.input + " " + styles.invalid : styles.input}
 						type="text"
 						value={inputValue}
 						onInput={handleInputChange}

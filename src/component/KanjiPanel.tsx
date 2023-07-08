@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Kanji } from "../../model/commonTypes";
+import { hiraginoKaku } from "@/asset/fonts";
 import Button from "./button";
 import styles from "./panel.module.css";
 
@@ -64,18 +65,10 @@ type CardProps = {
 	docUrl: string;
 };
 
-const Card: React.FC<CardProps> = ({
-	characters,
-	reading,
-	meaning,
-	docUrl,
-}) => {
+const Card: React.FC<CardProps> = ({ characters, reading, meaning, docUrl }) => {
 	return (
-		<a
-			href={docUrl}
-			target="_blank"
-			className={styles.card + " " + styles.kanji}>
-			<div className={styles.characters}>{characters}</div>
+		<a href={docUrl} target="_blank" className={styles.card + " " + styles.kanji}>
+			<div className={styles.characters + " " + hiraginoKaku.className}>{characters}</div>
 			<div className={styles.title}>{reading}</div>
 			<div className={styles.title}>
 				<div className={styles.titleInner}>{meaning}</div>

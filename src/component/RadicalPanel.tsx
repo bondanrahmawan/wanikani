@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Radical } from "../../model/commonTypes";
+import { hiraginoKaku } from "@/asset/fonts";
 import Button from "./button";
 import styles from "./panel.module.css";
 
@@ -48,10 +49,7 @@ const RadicalPanel: React.FC<PanelProps> = ({ level }) => {
 				</div>
 				<h2>{radicals.length}</h2>
 				<div className={styles.panelButton}>
-					<Button
-						text="Practice"
-						url={"/exercise/" + level + "?radical=true"}
-					/>
+					<Button text="Practice" url={"/exercise/" + level + "?radical=true"} />
 				</div>
 			</div>
 			<div className={styles.panel}>{components}</div>
@@ -69,11 +67,8 @@ type CardProps = {
 
 const Card: React.FC<CardProps> = ({ slug, characters, docUrl }) => {
 	return (
-		<a
-			href={docUrl}
-			target="_blank"
-			className={styles.card + " " + styles.radical}>
-			<div className={styles.characters}>{characters}</div>
+		<a href={docUrl} target="_blank" className={styles.card + " " + styles.radical}>
+			<div className={styles.characters + " " + hiraginoKaku.className}>{characters}</div>
 			<div className={styles.meaningKanji}>
 				<div className={styles.meaningKanjiInner}>{slug}</div>
 			</div>

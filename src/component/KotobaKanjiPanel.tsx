@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Kanji } from "../../model/commonTypes";
+import { hiraginoKaku } from "@/asset/fonts";
 import Button from "./button";
 import styles from "./panel.module.css";
 
@@ -47,10 +48,7 @@ const KotobaKanjiPanel: React.FC<PanelProps> = ({ level }) => {
 				</div>
 				<h2>{kotobaKanji.length}</h2>
 				<div className={styles.panelButton}>
-					<Button
-						text="Practice"
-						url={"/exercise/" + level + "?kotobakanji=true"}
-					/>
+					<Button text="Practice" url={"/exercise/" + level + "?kotobakanji=true"} />
 				</div>
 			</div>
 			<div className={styles.panelLong}>{components}</div>
@@ -67,15 +65,10 @@ type CardProps = {
 	docUrl: string;
 };
 
-const Card: React.FC<CardProps> = ({
-	characters,
-	reading,
-	meaning,
-	docUrl,
-}) => {
+const Card: React.FC<CardProps> = ({ characters, reading, meaning, docUrl }) => {
 	return (
 		<a href={docUrl} target="_blank" className={styles.cardKotoba}>
-			<span className={styles.charactersLong}>{characters}</span>
+			<span className={styles.charactersLong + " " + hiraginoKaku.className}>{characters}</span>
 			<span className={styles.titleBoxLong}>
 				<span className={styles.titleLong}>{reading}</span>
 				<span className={styles.titleLong}>{meaning}</span>
