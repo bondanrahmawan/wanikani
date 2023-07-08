@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { ExerciseModel } from "../../../../model/commonTypes";
 import styles from "./page.module.css";
 
@@ -7,10 +8,23 @@ type ResultPanelProps = {
 
 const ResultPanel: React.FC<ResultPanelProps> = ({ answers }) => {
 	const components: Array<JSX.Element> = [];
+	var correctAnswer = 0;
+
+	function checkAnswer(correctAnswers: Array<string>, answer: string) {
+		const lowerCaseCorrectAnswers = correctAnswers.map((answerKey) => {
+			return answerKey.toLowerCase();
+		});
+		return lowerCaseCorrectAnswers.includes(answer);
+	}
 
 	answers.sort((a, b) => a.id - b.id);
 
-	answers.forEach((k) =>
+	answers.forEach((k) => {
+		const isCorrect: boolean = checkAnswer(k.data.question, k.data.answer);
+		if (isCorrect) {
+			correctAnswer = correctAnswer + 1;
+		}
+
 		components.push(
 			<ResultCard
 				key={k.id}
@@ -18,18 +32,20 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ answers }) => {
 				slug={k.data.question}
 				answer={k.data.answer}
 				materialType={k.materialType}
+				isCorrect={isCorrect}
 			/>
-		)
-	);
+		);
+	});
 
 	const finalComponent = (
 		<div className={styles.result}>
-			<h2 className={styles.headerSection}>Exercise Result</h2>
-			<div className={styles.cardKotoba + " " + styles.header}>
-				<span className={styles.charactersLong}>Character</span>
-				<span className={styles.titleBoxLong}>
-					<span className={styles.meaning}>Meaning</span>
-					<span className={styles.answer}>Answer</span>
+			<div className={styles.cardResult + " " + styles.header}>
+				<span className={styles.charactersLong}>Result</span>
+				<span className={styles.meaning}>
+					{correctAnswer}/{answers.length}
+				</span>
+				<span className={styles.answer}>
+					{(correctAnswer * 100) / answers.length}%
 				</span>
 			</div>
 			<div className={styles.panelLong}>{components}</div>
@@ -44,6 +60,7 @@ type CardProps = {
 	slug: Array<string>;
 	answer: string;
 	materialType: string;
+	isCorrect: boolean;
 };
 
 const ResultCard: React.FC<CardProps> = ({
@@ -51,6 +68,7 @@ const ResultCard: React.FC<CardProps> = ({
 	slug,
 	answer,
 	materialType,
+	isCorrect,
 }) => {
 	const newSlug = slug.map((answerKey) => {
 		return answerKey.toLowerCase();
@@ -69,12 +87,10 @@ const ResultCard: React.FC<CardProps> = ({
 	return (
 		<div className={cardClassName}>
 			<span className={styles.charactersLong}>{character}</span>
-			<span className={styles.titleBoxLong}>
-				<span className={styles.meaning + " " + styles.correct}>
-					{newSlug.join(", ")}
-				</span>
-				<span className={styles.answer + " " + answerStyle}>{answer}</span>
+			<span className={styles.meaning + " " + styles.correct}>
+				{newSlug.join(", ")}
 			</span>
+			<span className={styles.answer + " " + answerStyle}>{answer}</span>
 		</div>
 	);
 };

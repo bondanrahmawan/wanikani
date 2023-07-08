@@ -3,7 +3,6 @@ import Image from "next/image";
 import { ExerciseModel } from "../../../../model/commonTypes";
 import { toKana, toRomaji } from "wanakana";
 import ResultPanel from "./resultPanel";
-// import { zenkakuGothicAntique } from "@/asset/fonts";
 import styles from "./page.module.css";
 import home from "../../../asset/home-dark.png";
 import left from "../../../asset/left.png";

@@ -128,16 +128,6 @@
   height: 50px;
 }
 
-.headerSection {
-  font-weight: 300;
-  font-size: 32px;
-  background-color: #e1e1e1;
-  width: 500px;
-
-  color: #000;
-  text-align: center;
-}
-
 .panelLong {
   display: flex;
   flex-direction: column;
@@ -155,8 +145,12 @@
 }
 
 .cardResult.header {
-  background-color: #3c3c3c;
-  color: #e1e1e1;
+  font-weight: 300;
+  font-size: 40px;
+  background-color: #e1e1e1;
+
+  color: #3c3c3c;
+  justify-content: space-between;
 }
 
 .cardResult.radical {
@@ -169,13 +163,6 @@
 
 .cardResult.kotoba {
   background-color: #AA00FF;
-}
-
-.titleBoxLong {
-  color: white;
-  width: 800px;
-
-  display: flex;
 }
 
 .meaning, .answer {
