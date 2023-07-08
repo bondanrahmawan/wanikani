@@ -1,41 +1,101 @@
-.header {
-    padding-left: 10px;
-    font-weight: 300;
-    font-size: 40px;
-    color: white;
-  
-    display: flex;
-    justify-content: space-between;
+.radical {
+    background-color: #0093dd;
+}
+
+.kanji {
+    background-color: #ff00aa;
 }
 
 .card {
     border: 1px solid #ccc;
-    background-color: #767676;
     border-radius: 8px;
-    width: 50px;
-    height: 50px;
 
     display: flex;
-    justify-content: center;
     align-items: center;
 }
 
-.level {
-    height: 80px;
-    width: 750px;
-    padding: 25px;
+.card.square {
+    background-color: #767676;
 
+    width: 50px;
+    height: 50px;
+
+    margin: 0px 5px;
+
+    justify-content: center;
+}
+
+.card.rectangular {
+    width: 250px;
+    height: 50px;
+}
+
+.level {
     display: flex;
     justify-content: space-around;
     align-items: center;
+}
+
+.level.square {
+    padding: 10px;
+}
+
+.level.rectangular {
+    padding: 5px 10px;
+    flex-direction: column;
 }
   
 .title {
     width: 100%;
     height: 100%;
     color: white;
+
     display: flex;
-    justify-content: center;
     align-items: center;
 }
+
+.title.square {
+    justify-content: center;
+}
+
+.title.rectangular {
+    justify-content: space-around;
+}
+
+.button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #f0f0f0;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+
+.sitemap {
+    display: flex;
+}
+
+.sitemap_option {
+    width: 400px;
+}
+
+.sitemap_levels {
+    background-color: transparent;
+
+    display: none;
+    position: absolute;
   
+    z-index: 1;
+}
+
+.sitemap_levels.level {
+    background-color: #333;
+
+    border: solid #ccc 1px;
+}
+
+.sitemap_levels.clicked {
+    display: block;
+}
