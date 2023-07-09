@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { ExerciseModel } from "../../../../model/commonTypes";
 import styles from "./page.module.css";
 
@@ -10,17 +9,18 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ answers }) => {
 	const components: Array<JSX.Element> = [];
 	var correctAnswer = 0;
 
-	function checkAnswer(correctAnswers: Array<string>, answer: string) {
-		const lowerCaseCorrectAnswers = correctAnswers.map((answerKey) => {
-			return answerKey.toLowerCase();
-		});
+	function checkAnswer(lowerCaseCorrectAnswers: Array<string>, answer: string) {
 		return lowerCaseCorrectAnswers.includes(answer);
 	}
 
 	answers.sort((a, b) => a.id - b.id);
 
 	answers.forEach((k) => {
-		const isCorrect: boolean = checkAnswer(k.data.question, k.data.answer);
+		const lowerCaseCorrectAnswers = k.data.question.map((answerKey) => {
+			return answerKey.toLowerCase();
+		});
+
+		const isCorrect: boolean = checkAnswer(lowerCaseCorrectAnswers, k.data.answer);
 		if (isCorrect) {
 			correctAnswer = correctAnswer + 1;
 		}
@@ -29,7 +29,7 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ answers }) => {
 			<ResultCard
 				key={k.id}
 				character={k.data.characters}
-				slug={k.data.question}
+				slug={lowerCaseCorrectAnswers}
 				answer={k.data.answer}
 				materialType={k.materialType}
 				isCorrect={isCorrect}
@@ -45,7 +45,7 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ answers }) => {
 					{correctAnswer}/{answers.length}
 				</span>
 				<span className={styles.answer}>
-					{(correctAnswer * 100) / answers.length}%
+					{((correctAnswer * 100) / answers.length).toString().split(",")[0]}%
 				</span>
 			</div>
 			<div className={styles.panelLong}>{components}</div>
@@ -63,19 +63,8 @@ type CardProps = {
 	isCorrect: boolean;
 };
 
-const ResultCard: React.FC<CardProps> = ({
-	character,
-	slug,
-	answer,
-	materialType,
-	isCorrect,
-}) => {
-	const newSlug = slug.map((answerKey) => {
-		return answerKey.toLowerCase();
-	});
-	const answerStyle = newSlug.includes(answer)
-		? styles.correct
-		: styles.incorrect;
+const ResultCard: React.FC<CardProps> = ({ character, slug, answer, materialType, isCorrect }) => {
+	const answerStyle = isCorrect ? styles.correct : styles.incorrect;
 
 	const cardClassName =
 		materialType === "kotoba"
@@ -87,9 +76,7 @@ const ResultCard: React.FC<CardProps> = ({
 	return (
 		<div className={cardClassName}>
 			<span className={styles.charactersLong}>{character}</span>
-			<span className={styles.meaning + " " + styles.correct}>
-				{newSlug.join(", ")}
-			</span>
+			<span className={styles.meaning + " " + styles.correct}>{slug.join(", ")}</span>
 			<span className={styles.answer + " " + answerStyle}>{answer}</span>
 		</div>
 	);
