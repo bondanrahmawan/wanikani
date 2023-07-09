@@ -45,7 +45,7 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ answers }) => {
 					{correctAnswer}/{answers.length}
 				</span>
 				<span className={styles.answer}>
-					{((correctAnswer * 100) / answers.length).toString().split(",")[0]}%
+					{((correctAnswer * 100) / answers.length).toString().split(".")[0]}%
 				</span>
 			</div>
 			<div className={styles.panelLong}>{components}</div>
