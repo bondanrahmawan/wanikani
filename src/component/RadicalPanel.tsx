@@ -7,10 +7,12 @@ import styles from "./panel.module.css";
 
 type PanelProps = {
 	level: string;
+	title?: string;
 };
 
-const RadicalPanel: React.FC<PanelProps> = ({ level }) => {
+const RadicalPanel: React.FC<PanelProps> = ({ level, title }) => {
 	const [radicals, setRadicals] = useState<Radical[]>([]);
+	title = title || "Radical";
 
 	const components: Array<JSX.Element> = [];
 
@@ -44,10 +46,8 @@ const RadicalPanel: React.FC<PanelProps> = ({ level }) => {
 	const finalComponent = (
 		<div>
 			<div className={styles.headerSection}>
-				<div className={styles.panelTitle}>
-					<h2>Radical</h2>
-				</div>
-				<h2>{radicals.length}</h2>
+				<h1 className={styles.panelTitle}>{title}</h1>
+				<h1>{radicals.length}</h1>
 				<div className={styles.panelButton}>
 					<Button text="Practice" url={"/exercise/" + level + "?radical=true"} />
 				</div>
