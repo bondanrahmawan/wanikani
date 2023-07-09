@@ -23,7 +23,7 @@ const RadicalPanel: React.FC<PanelProps> = ({ level, title }) => {
 				const data = await response.json();
 				setRadicals(data);
 			} catch (err) {
-				console.error("Error fetching users:", err);
+				console.error("Error fetching radicals:", err);
 			}
 		};
 

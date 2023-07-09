@@ -7,10 +7,12 @@ import styles from "./panel.module.css";
 
 type PanelProps = {
 	level: string;
+	title?: string;
 };
 
-const KanjiPanel: React.FC<PanelProps> = ({ level }) => {
+const KanjiPanel: React.FC<PanelProps> = ({ level, title }) => {
 	const [kanji, setKanji] = useState<Kanji[]>([]);
+	title = title || "Kanji";
 
 	const components: Array<JSX.Element> = [];
 
@@ -21,7 +23,7 @@ const KanjiPanel: React.FC<PanelProps> = ({ level }) => {
 				const data = await response.json();
 				setKanji(data);
 			} catch (err) {
-				console.error("Error fetching users:", err);
+				console.error("Error fetching kanjis:", err);
 			}
 		};
 
@@ -43,10 +45,8 @@ const KanjiPanel: React.FC<PanelProps> = ({ level }) => {
 	const finalComponent = (
 		<div>
 			<div className={styles.headerSection}>
-				<div className={styles.panelTitle}>
-					<h2>Kanji</h2>
-				</div>
-				<h2>{kanji.length}</h2>
+				<h1 className={styles.panelTitle}>{title}</h1>
+				<h1>{kanji.length}</h1>
 				<div className={styles.panelButton}>
 					<Button text="Practice" url={"/exercise/" + level + "?kanji=true"} />
 				</div>
