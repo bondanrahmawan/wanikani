@@ -26,8 +26,10 @@
 }
 
 .card.rectangular {
-    width: 250px;
+    width: 100px;
     height: 50px;
+
+    margin: 0px 5px;
 }
 
 .level {
@@ -42,7 +44,6 @@
 
 .level.rectangular {
     padding: 5px 10px;
-    flex-direction: column;
 }
   
 .title {

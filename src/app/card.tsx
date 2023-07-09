@@ -4,13 +4,13 @@ import styles from "./homepage.module.css";
 
 interface LevelProps {
 	type: string;
-	start?: number | null;
-	end?: number | null;
-	grade?: number | null;
-	title?: string | null;
+	start?: number;
+	end?: number;
+	gradeRange?: Array<number>;
+	title?: string;
 }
 
-const LevelCardComponent: React.FC<LevelProps> = ({ type, start, end, grade, title }) => {
+const LevelCardComponent: React.FC<LevelProps> = ({ type, start, end, gradeRange, title }) => {
 	const components = [];
 
 	if (type === "level") {
@@ -21,8 +21,9 @@ const LevelCardComponent: React.FC<LevelProps> = ({ type, start, end, grade, tit
 			}
 		}
 	} else {
-		if (grade !== null && grade !== undefined && title !== null && title !== undefined) {
-			components.push(<RectangularCard key={grade} grade={grade} title={title} type={type} />);
+		if (gradeRange !== null && gradeRange !== undefined) {
+			components.push(<RectangularCard key={gradeRange[0]} grade={gradeRange[0]} type={type} />);
+			components.push(<RectangularCard key={gradeRange[1]} grade={gradeRange[1]} type={type} />);
 		}
 	}
 
@@ -40,7 +41,7 @@ const LevelCardComponent: React.FC<LevelProps> = ({ type, start, end, grade, tit
 
 interface CardProps {
 	grade: number;
-	title: string;
+	title?: string;
 	type?: string;
 }
 
@@ -54,7 +55,7 @@ const SquareCard: React.FC<CardProps> = ({ title }) => {
 	);
 };
 
-const RectangularCard: React.FC<CardProps> = ({ grade, title, type }) => {
+const RectangularCard: React.FC<CardProps> = ({ grade, type }) => {
 	const className =
 		type === "radical"
 			? styles.card + " " + styles.rectangular + " " + styles.radical
@@ -64,7 +65,6 @@ const RectangularCard: React.FC<CardProps> = ({ grade, title, type }) => {
 		<div className={className}>
 			<Link href={"/level/" + grade} className={styles.title + " " + styles.rectangular}>
 				<span>Grade {grade}</span>
-				<span>{title}</span>
 			</Link>
 		</div>
 	);
