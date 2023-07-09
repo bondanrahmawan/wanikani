@@ -61,9 +61,11 @@ const RectangularCard: React.FC<CardProps> = ({ grade, type }) => {
 			? styles.card + " " + styles.rectangular + " " + styles.radical
 			: styles.card + " " + styles.rectangular + " " + styles.kanji;
 
+	const href = type === "radical" ? "/radical/" + grade : "/kanji/" + grade;
+
 	return (
 		<div className={className}>
-			<Link href={"/level/" + grade} className={styles.title + " " + styles.rectangular}>
+			<Link href={href} className={styles.title + " " + styles.rectangular}>
 				<span>Grade {grade}</span>
 			</Link>
 		</div>
