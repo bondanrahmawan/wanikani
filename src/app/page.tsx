@@ -19,6 +19,8 @@ export default function Homepage() {
 							className={styles.button}
 							onClick={() => {
 								setLevelClicked(!levelClicked);
+								setRadicalClicked(false);
+								setKanjiClicked(false);
 							}}>
 							Level
 						</button>
@@ -41,6 +43,8 @@ export default function Homepage() {
 							className={styles.button}
 							onClick={() => {
 								setRadicalClicked(!radicalClicked);
+								setLevelClicked(false);
+								setKanjiClicked(false);
 							}}>
 							Radical
 						</button>
@@ -50,12 +54,12 @@ export default function Homepage() {
 									? styles.sitemap_levels + " " + styles.radical + " " + styles.clicked
 									: styles.sitemap_levels
 							}>
-							<LevelCardComponent type="radical" grade={1} title={"Level 1-10"} />
-							<LevelCardComponent type="radical" grade={2} title={"Level 11-20"} />
-							<LevelCardComponent type="radical" grade={3} title={"Level 21-30"} />
-							<LevelCardComponent type="radical" grade={4} title={"Level 31-40"} />
-							<LevelCardComponent type="radical" grade={5} title={"Level 41-50"} />
-							<LevelCardComponent type="radical" grade={6} title={"Level 51-60"} />
+							<LevelCardComponent type="radical" gradeRange={[1, 2]} />
+							<LevelCardComponent type="radical" gradeRange={[3, 4]} />
+							<LevelCardComponent type="radical" gradeRange={[5, 6]} />
+							<LevelCardComponent type="radical" gradeRange={[7, 8]} />
+							<LevelCardComponent type="radical" gradeRange={[9, 10]} />
+							<LevelCardComponent type="radical" gradeRange={[11, 12]} />
 						</div>
 					</div>
 					<div className={styles.sitemap_option}>
@@ -63,6 +67,8 @@ export default function Homepage() {
 							className={styles.button}
 							onClick={() => {
 								setKanjiClicked(!kanjiClicked);
+								setLevelClicked(false);
+								setRadicalClicked(false);
 							}}>
 							Kanji
 						</button>
@@ -70,12 +76,12 @@ export default function Homepage() {
 							className={
 								kanjiClicked ? styles.sitemap_levels + " " + styles.clicked : styles.sitemap_levels
 							}>
-							<LevelCardComponent type="kanji" grade={1} title={"Level 1-10"} />
-							<LevelCardComponent type="kanji" grade={2} title={"Level 11-20"} />
-							<LevelCardComponent type="kanji" grade={3} title={"Level 21-30"} />
-							<LevelCardComponent type="kanji" grade={4} title={"Level 31-40"} />
-							<LevelCardComponent type="kanji" grade={5} title={"Level 41-50"} />
-							<LevelCardComponent type="kanji" grade={6} title={"Level 51-60"} />
+							<LevelCardComponent type="kanji" gradeRange={[1, 2]} />
+							<LevelCardComponent type="kanji" gradeRange={[3, 4]} />
+							<LevelCardComponent type="kanji" gradeRange={[5, 6]} />
+							<LevelCardComponent type="kanji" gradeRange={[7, 8]} />
+							<LevelCardComponent type="kanji" gradeRange={[9, 10]} />
+							<LevelCardComponent type="kanji" gradeRange={[11, 12]} />
 						</div>
 					</div>
 					<div className={styles.sitemap_option}>
