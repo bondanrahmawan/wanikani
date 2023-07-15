@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Kanji } from "../../model/commonTypes";
+import { Kanji, KanjiDetail } from "../../model/commonTypes";
 import { hiraginoKaku } from "@/asset/fonts";
 import Button from "./button";
 import styles from "./panel.module.css";
@@ -16,6 +16,10 @@ const KanjiPanel: React.FC<PanelProps> = ({ level, title }) => {
 
 	const components: Array<JSX.Element> = [];
 
+	function getPrimary(arr: Array<KanjiDetail>) {
+		return arr.find((e) => e.primary);
+	}
+
 	useEffect(() => {
 		const fetchUsers = async () => {
 			try {
@@ -30,17 +34,19 @@ const KanjiPanel: React.FC<PanelProps> = ({ level, title }) => {
 		fetchUsers();
 	}, []);
 
-	kanji.forEach((k) =>
+	kanji.forEach((k) => {
+		const reading = getPrimary(k.data.readings);
+		const meaning = getPrimary(k.data.meanings);
 		components.push(
 			<Card
 				key={k.id}
 				characters={k.data.characters}
-				reading={k.data.readings[0].reading}
-				meaning={k.data.meanings[0].meaning}
+				reading={reading == undefined ? "" : reading.reading}
+				meaning={meaning == undefined ? "" : meaning.meaning}
 				docUrl={k.data.document_url}
 			/>
-		)
-	);
+		);
+	});
 
 	const finalComponent = (
 		<div>
