@@ -1,12 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import {
-	ExerciseModel,
-	Radical,
-	Kanji,
-	Kana,
-} from "../../../../model/commonTypes";
+import { ExerciseModel, Radical, Kanji, Kana } from "../../../../model/commonTypes";
 import Slideshow from "./slideshow";
 
 export default function Page({ params }: { params: { level: string } }) {
@@ -29,10 +24,7 @@ export default function Page({ params }: { params: { level: string } }) {
 		});
 	}
 
-	function convertKanji(
-		kanjis: Array<Kanji>,
-		isKotoba: boolean
-	): Array<Array<ExerciseModel>> {
+	function convertKanji(kanjis: Array<Kanji>, isKotoba: boolean): Array<Array<ExerciseModel>> {
 		return kanjis.map((kanji) => {
 			const materialType = isKotoba ? "kotoba" : "kanji";
 
@@ -123,6 +115,14 @@ export default function Page({ params }: { params: { level: string } }) {
 		return convertKana(data);
 	}
 
+	function shuffleArray(array: Array<ExerciseModel>) {
+		for (let i = array.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[array[i], array[j]] = [array[j], array[i]];
+		}
+		return array;
+	}
+
 	useEffect(() => {
 		const fetchRadical = async () => {
 			try {
@@ -136,27 +136,19 @@ export default function Page({ params }: { params: { level: string } }) {
 				}
 
 				if (searchParams.get("kotoba")) {
-					tempMaterials = tempMaterials.concat(
-						await fetchAndMapKotobaKanjiData()
-					);
-					tempMaterials = tempMaterials.concat(
-						await fetchAndMapKotobaKanaData()
-					);
+					tempMaterials = tempMaterials.concat(await fetchAndMapKotobaKanjiData());
+					tempMaterials = tempMaterials.concat(await fetchAndMapKotobaKanaData());
 				}
 
 				if (searchParams.get("kotobakanji")) {
-					tempMaterials = tempMaterials.concat(
-						await fetchAndMapKotobaKanjiData()
-					);
+					tempMaterials = tempMaterials.concat(await fetchAndMapKotobaKanjiData());
 				}
 
 				if (searchParams.get("kotobakana")) {
-					tempMaterials = tempMaterials.concat(
-						await fetchAndMapKotobaKanaData()
-					);
+					tempMaterials = tempMaterials.concat(await fetchAndMapKotobaKanaData());
 				}
 
-				setMaterials(tempMaterials);
+				setMaterials(shuffleArray(tempMaterials));
 			} catch (err) {
 				console.error("Error fetching users:", err);
 			}
@@ -167,11 +159,7 @@ export default function Page({ params }: { params: { level: string } }) {
 
 	return (
 		<div className="app">
-			{materials.length > 0 ? (
-				<Slideshow slides={materials} level={params.level} />
-			) : (
-				<div />
-			)}
+			{materials.length > 0 ? <Slideshow slides={materials} level={params.level} /> : <div />}
 		</div>
 	);
 }
