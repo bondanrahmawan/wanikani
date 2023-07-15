@@ -46,10 +46,12 @@ const Slideshow: React.FC<SlideshowProps> = ({ slides, level }) => {
 	const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === "Enter") {
 			if (isValidString(inputValue)) {
+				if (!isValidString(slides[currentSlide].data.answer)) {
+					setAnswered(answered + 1);
+				}
 				slides[currentSlide].data.answer = inputValue.trim();
 				setInputValue("");
 				goToNextSlide();
-				setAnswered(answered + 1);
 			} else {
 				setIsInvalid(true);
 			}
