@@ -26,16 +26,11 @@ export type CharacterImage = {
 	content_type: string;
 };
 
-export type KanjiMeaning = {
+export type KanjiDetail = {
+	primary: boolean;
+	accepted_answer: boolean;
 	meaning: string;
-	primary: boolean;
-	accepted_answer: boolean;
-};
-
-export type KanjiReading = {
 	reading: string;
-	primary: boolean;
-	accepted_answer: boolean;
 };
 
 export type Radical = {
@@ -65,8 +60,8 @@ export type Kanji = {
 		slug: string;
 		document_url: string;
 		characters: string;
-		readings: Array<KanjiReading>;
-		meanings: Array<KanjiMeaning>;
+		readings: Array<KanjiDetail>;
+		meanings: Array<KanjiDetail>;
 	};
 };
 
@@ -74,9 +69,9 @@ export type KanjiExercise = {
 	id: number;
 	data: {
 		characters: string;
-		readings: Array<KanjiReading>;
+		readings: Array<KanjiDetail>;
 		readingAnswer: string;
-		meanings: Array<KanjiMeaning>;
+		meanings: Array<KanjiDetail>;
 		meaningAnswer: string;
 	};
 };
@@ -99,6 +94,6 @@ export type Kana = {
 		slug: string;
 		document_url: string;
 		characters: string;
-		meanings: Array<KanjiMeaning>;
+		meanings: Array<KanjiDetail>;
 	};
 };
