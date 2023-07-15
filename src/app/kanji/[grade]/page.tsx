@@ -3,6 +3,7 @@ import Button from "@/component/button";
 import styles from "./page.module.css";
 import Image from "next/image";
 import home from "../../../asset/home-dark.png";
+import Header from "@/component/Header";
 
 export default function Page({ params }: { params: { grade: string } }) {
 	const gradeInt = parseInt(params.grade, 10);
@@ -17,16 +18,7 @@ export default function Page({ params }: { params: { grade: string } }) {
 
 	return (
 		<div>
-			<div className={styles.header}>
-				<a href="/">
-					<Image className={styles.button} src={home} alt=""></Image>
-				</a>
-				<span>Grade: {params.grade}</span>
-				<Button
-					text="Practice All"
-					url={"/exercise/" + params.grade + "?radical=true&kanji=true&kotoba=true"}
-				/>
-			</div>
+			<Header grade={params.grade} />
 			{components}
 		</div>
 	);

@@ -51,7 +51,7 @@ export default function Homepage() {
 						<div
 							className={
 								radicalClicked
-									? styles.sitemap_levels + " " + styles.radical + " " + styles.clicked
+									? styles.sitemap_levels + " " + styles.clicked
 									: styles.sitemap_levels
 							}>
 							<LevelCardComponent type="radical" gradeRange={[1, 2]} />

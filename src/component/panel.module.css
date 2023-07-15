@@ -1,3 +1,77 @@
+.radical {
+  background-color: #0093dd;
+}
+
+.radical:hover {
+  background-color: #069;
+}
+
+.kanji {
+  background-color: #ff00aa;
+}
+
+.kanji:hover {
+  background-color: #cc0088;
+}
+
+.kotoba {
+  background-color: #AA00FF;
+}
+
+.kotoba:hover {
+  background-color: #8800cc;
+}
+
+.header {
+  padding-left: 10px;
+  margin-right: 10px;
+  font-weight: 300;
+  font-size: 40px;
+  color: white;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+}
+
+.button {
+  width: 125px;
+  height: 50px;
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #f0f0f0;
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.sitemap_levels {
+  background-color: transparent;
+
+  display: none;
+  position: absolute;
+  transform: translateX(-20%);
+
+  z-index: 1;
+}
+
+.sitemap_levels.level {
+  background-color: #333;
+
+  border: solid #ccc 1px;
+}
+
+.sitemap_levels.clicked {
+  display: block;
+}
+
 .headerSection {
   margin-top: 25px;
   margin-left: 10px;
@@ -42,14 +116,6 @@
 
   display: flex;
   flex-direction: column;
-}
-
-.card.radical {
-  background-color: #0088FF;
-}
-
-.card.kanji {
-  background-color: #FF00AA;
 }
 
 .cardKotoba {
