@@ -1,8 +1,4 @@
 import KanjiPanel from "../../../component/KanjiPanel";
-import Button from "@/component/button";
-import styles from "./page.module.css";
-import Image from "next/image";
-import home from "../../../asset/home-dark.png";
 import Header from "@/component/Header";
 
 export default function Page({ params }: { params: { grade: string } }) {
@@ -18,7 +14,7 @@ export default function Page({ params }: { params: { grade: string } }) {
 
 	return (
 		<div>
-			<Header grade={params.grade} />
+			<Header grade={params.grade} type={"kanji"} />
 			{components}
 		</div>
 	);

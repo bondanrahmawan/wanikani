@@ -8,9 +8,10 @@ import home from "@/asset/home-dark.png";
 
 type HeaderProps = {
 	grade: string;
+	type: string;
 };
 
-const Header: React.FC<HeaderProps> = ({ grade }) => {
+const Header: React.FC<HeaderProps> = ({ grade, type }) => {
 	const [gradeClicked, setGradeClicked] = useState<boolean>(false);
 
 	return (
@@ -30,12 +31,12 @@ const Header: React.FC<HeaderProps> = ({ grade }) => {
 					className={
 						gradeClicked ? styles.sitemap_levels + " " + styles.clicked : styles.sitemap_levels
 					}>
-					<LevelCardComponent type="kanji" gradeRange={[1, 2]} />
-					<LevelCardComponent type="kanji" gradeRange={[3, 4]} />
-					<LevelCardComponent type="kanji" gradeRange={[5, 6]} />
-					<LevelCardComponent type="kanji" gradeRange={[7, 8]} />
-					<LevelCardComponent type="kanji" gradeRange={[9, 10]} />
-					<LevelCardComponent type="kanji" gradeRange={[11, 12]} />
+					<LevelCardComponent type={type} gradeRange={[1, 2]} />
+					<LevelCardComponent type={type} gradeRange={[3, 4]} />
+					<LevelCardComponent type={type} gradeRange={[5, 6]} />
+					<LevelCardComponent type={type} gradeRange={[7, 8]} />
+					<LevelCardComponent type={type} gradeRange={[9, 10]} />
+					<LevelCardComponent type={type} gradeRange={[11, 12]} />
 				</div>
 			</div>
 			<Button
