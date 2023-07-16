@@ -118,9 +118,9 @@ const Slideshow: React.FC<SlideshowProps> = ({ slides, level }) => {
 					</div>
 					<div
 						className={
-							slides[currentSlide].questionType === "meaning"
-								? styles.questionType + " " + styles.meaning
-								: styles.questionType + " " + styles.reading
+							slides[currentSlide].questionType === "reading"
+								? styles.questionType + " " + styles.reading
+								: styles.questionType + " " + styles.meaning
 						}>
 						{slides[currentSlide].questionType}
 					</div>

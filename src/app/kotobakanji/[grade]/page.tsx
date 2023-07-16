@@ -9,9 +9,7 @@ export default function Page({ params }: { params: { grade: string } }) {
 	const components = [];
 
 	for (let i = gradeLowerLimit; i <= gradeUpperLimit; i++) {
-		components.push(
-			<KotobaKanjiPanel level={i.toString()} title={"Level " + i} showKana={false} />
-		);
+		components.push(<KotobaKanjiPanel level={i.toString()} title={"Level " + i} showKana={true} />);
 	}
 
 	return (

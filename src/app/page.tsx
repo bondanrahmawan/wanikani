@@ -97,7 +97,7 @@ export default function Homepage() {
 								setRadicalClicked(false);
 								setKanjiClicked(false);
 							}}>
-							Kotoba Kanji
+							Kotoba
 						</button>
 						<div
 							className={
