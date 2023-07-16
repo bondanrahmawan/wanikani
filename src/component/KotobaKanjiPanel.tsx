@@ -7,10 +7,12 @@ import styles from "./panel.module.css";
 
 type PanelProps = {
 	level: string;
+	title?: string;
 };
 
-const KotobaKanjiPanel: React.FC<PanelProps> = ({ level }) => {
+const KotobaKanjiPanel: React.FC<PanelProps> = ({ level, title }) => {
 	const [kotobaKanji, setKotobaKanji] = useState<Kanji[]>([]);
+	title = title || "Kotoba Kanji";
 
 	const components: Array<JSX.Element> = [];
 
@@ -43,10 +45,8 @@ const KotobaKanjiPanel: React.FC<PanelProps> = ({ level }) => {
 	const finalComponent = (
 		<div>
 			<div className={styles.headerSection}>
-				<div className={styles.panelTitle}>
-					<h2>Kotoba Kanji</h2>
-				</div>
-				<h2>{kotobaKanji.length}</h2>
+				<h1 className={styles.panelTitle}>{title}</h1>
+				<h1>{kotobaKanji.length}</h1>
 				<div className={styles.panelButton}>
 					<Button text="Practice" url={"/exercise/" + level + "?kotobakanji=true"} />
 				</div>
