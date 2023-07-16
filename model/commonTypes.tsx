@@ -97,3 +97,9 @@ export type Kana = {
 		meanings: Array<KanjiDetail>;
 	};
 };
+
+export type BaseKana = {
+	kana: string;
+	romaji: string;
+	type: string;
+};
