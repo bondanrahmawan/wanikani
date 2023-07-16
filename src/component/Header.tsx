@@ -16,10 +16,10 @@ const Header: React.FC<HeaderProps> = ({ grade, type }) => {
 
 	return (
 		<div className={styles.header}>
-			<a href="/">
-				<Image className={styles.icon} src={home} alt=""></Image>
+			<a className={styles.icon} href="/">
+				<Image src={home} alt=""></Image>
 			</a>
-			<div>
+			<div className={styles.buttonEnclosing}>
 				<button
 					className={styles.button}
 					onClick={() => {

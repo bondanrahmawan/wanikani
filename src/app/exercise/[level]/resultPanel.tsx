@@ -41,10 +41,10 @@ const ResultPanel: React.FC<ResultPanelProps> = ({ answers }) => {
 		<div className={styles.result}>
 			<div className={styles.cardResult + " " + styles.header}>
 				<span className={styles.charactersLong}>Result</span>
-				<span className={styles.meaning}>
+				<span className={styles.headerMeaning}>
 					{correctAnswer}/{answers.length}
 				</span>
-				<span className={styles.answer}>
+				<span className={styles.headerMeaning}>
 					{((correctAnswer * 100) / answers.length).toString().split(".")[0]}%
 				</span>
 			</div>
@@ -76,8 +76,8 @@ const ResultCard: React.FC<CardProps> = ({ character, slug, answer, materialType
 	return (
 		<div className={cardClassName}>
 			<span className={styles.charactersLong}>{character}</span>
-			<span className={styles.meaning + " " + styles.correct}>{slug.join(", ")}</span>
-			<span className={styles.answer + " " + answerStyle}>{answer}</span>
+			<span className={styles.resultMeaning + " " + styles.correct}>{slug.join(", ")}</span>
+			<span className={styles.resultAnswer + " " + answerStyle}>{answer}</span>
 		</div>
 	);
 };

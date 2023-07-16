@@ -7,10 +7,12 @@ import styles from "./panel.module.css";
 
 type PanelProps = {
 	level: string;
+	title?: string;
 };
 
-const KotobaKanaPanel: React.FC<PanelProps> = ({ level }) => {
+const KotobaKanaPanel: React.FC<PanelProps> = ({ level, title }) => {
 	const [kotobaKana, setKotobaKana] = useState<Kana[]>([]);
+	title = title || "Kotoba Kana";
 
 	const components: Array<JSX.Element> = [];
 
@@ -42,10 +44,8 @@ const KotobaKanaPanel: React.FC<PanelProps> = ({ level }) => {
 	const finalComponent = (
 		<div>
 			<div className={styles.headerSection}>
-				<div className={styles.panelTitle}>
-					<h2>Kotoba Kana</h2>
-				</div>
-				<h2>{kotobaKana.length}</h2>
+				<h1 className={styles.panelTitle}>{title}</h1>
+				<h1>{kotobaKana.length}</h1>
 				<div className={styles.panelButton}>
 					<Button text="Practice" url={"/exercise/" + level + "?kotobakana=true"} />
 				</div>

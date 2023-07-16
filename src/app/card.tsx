@@ -7,10 +7,9 @@ interface LevelProps {
 	start?: number;
 	end?: number;
 	gradeRange?: Array<number>;
-	title?: string;
 }
 
-const LevelCardComponent: React.FC<LevelProps> = ({ type, start, end, gradeRange, title }) => {
+const LevelCardComponent: React.FC<LevelProps> = ({ type, start, end, gradeRange }) => {
 	const components = [];
 
 	if (type === "level") {
@@ -59,9 +58,16 @@ const RectangularCard: React.FC<CardProps> = ({ grade, type }) => {
 	const className =
 		type === "radical"
 			? styles.card + " " + styles.rectangular + " " + styles.radical
-			: styles.card + " " + styles.rectangular + " " + styles.kanji;
+			: type === "kanji"
+			? styles.card + " " + styles.rectangular + " " + styles.kanji
+			: styles.card + " " + styles.rectangular + " " + styles.kotoba;
 
-	const href = type === "radical" ? "/radical/" + grade : "/kanji/" + grade;
+	const href =
+		type === "radical"
+			? "/radical/" + grade
+			: type === "kanji"
+			? "/kanji/" + grade
+			: "/kotobakanji/" + grade;
 
 	return (
 		<div className={className}>

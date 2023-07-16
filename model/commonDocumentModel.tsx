@@ -1,10 +1,5 @@
 import { Schema, model, models } from "mongoose";
-import {
-	ContextSentence,
-	CharacterImage,
-	Meaning,
-	Reading,
-} from "./commonTypes";
+import { ContextSentence, CharacterImage, Meaning, Reading } from "./commonTypes";
 
 const RadicalSchema: Schema = new Schema(
 	{
@@ -20,8 +15,7 @@ const RadicalSchema: Schema = new Schema(
 	{ collection: "radical" }
 );
 
-export const RadicalModel =
-	models.RadicalModel || model("RadicalModel", RadicalSchema);
+export const RadicalModel = models.RadicalModel || model("RadicalModel", RadicalSchema);
 
 const KanjiSchema: Schema = new Schema(
 	{
@@ -74,5 +68,26 @@ const KotobaKanaSchema: Schema = new Schema(
 	{ collection: "kotoba_kana" }
 );
 
-export const KotobaKanaModel =
-	models.KotobaKanaModel || model("KotobaKanaModel", KotobaKanaSchema);
+export const KotobaKanaModel = models.KotobaKanaModel || model("KotobaKanaModel", KotobaKanaSchema);
+
+const HiraganaSchema: Schema = new Schema(
+	{
+		kana: String,
+		romaji: String,
+		type: String,
+	},
+	{ collection: "hiragana" }
+);
+
+export const HiraganaModel = models.HiraganaModel || model("HiraganaModel", HiraganaSchema);
+
+const KatakanaSchema: Schema = new Schema(
+	{
+		kana: String,
+		romaji: String,
+		type: String,
+	},
+	{ collection: "katakana" }
+);
+
+export const KatakanaModel = models.KatakanaModel || model("KatakanaModel", KatakanaSchema);

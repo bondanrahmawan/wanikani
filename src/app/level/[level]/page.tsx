@@ -17,9 +17,7 @@ export default function Page({ params }: { params: { level: string } }) {
 				<h1>Level: {params.level}</h1>
 				<Button
 					text="Practice All"
-					url={
-						"/exercise/" + params.level + "?radical=true&kanji=true&kotoba=true"
-					}
+					url={"/exercise/" + params.level + "?radical=true&kanji=true&kotoba=true"}
 				/>
 			</div>
 			<RadicalPanel level={params.level} />

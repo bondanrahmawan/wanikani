@@ -1,5 +1,5 @@
 .radical {
-    background-color: #0093dd;
+    background-color: #00AAFF;
 }
 
 .radical:hover {
@@ -12,6 +12,14 @@
 
 .kanji:hover {
     background-color: #cc0088;
+}
+
+.kotoba {
+    background-color: #AA00FF;
+}
+
+.kotoba:hover {
+    background-color: #8800cc;
 }
 
 .card {

@@ -153,6 +153,17 @@
   justify-content: space-between;
 }
 
+.headerMeaning, .headerAnswer {
+  font-size: 40px;
+
+  height: 100%;
+  width: 400px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .cardResult.radical {
   background-color: #0088FF;
 }
@@ -165,7 +176,7 @@
   background-color: #AA00FF;
 }
 
-.meaning, .answer {
+.resultMeaning, .resultAnswer {
   font-size: 20px;
 
   height: 100%;
