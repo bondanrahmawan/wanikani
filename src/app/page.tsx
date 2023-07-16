@@ -8,6 +8,7 @@ export default function Homepage() {
 	const [levelClicked, setLevelClicked] = useState<boolean>(false);
 	const [radicalClicked, setRadicalClicked] = useState<boolean>(false);
 	const [kanjiClicked, setKanjiClicked] = useState<boolean>(false);
+	const [kotobaClicked, setKotobaClicked] = useState<boolean>(false);
 
 	return (
 		<div>
@@ -21,6 +22,7 @@ export default function Homepage() {
 								setLevelClicked(!levelClicked);
 								setRadicalClicked(false);
 								setKanjiClicked(false);
+								setKotobaClicked(false);
 							}}>
 							Level
 						</button>
@@ -45,6 +47,7 @@ export default function Homepage() {
 								setRadicalClicked(!radicalClicked);
 								setLevelClicked(false);
 								setKanjiClicked(false);
+								setKotobaClicked(false);
 							}}>
 							Radical
 						</button>
@@ -69,6 +72,7 @@ export default function Homepage() {
 								setKanjiClicked(!kanjiClicked);
 								setLevelClicked(false);
 								setRadicalClicked(false);
+								setKotobaClicked(false);
 							}}>
 							Kanji
 						</button>
@@ -85,7 +89,27 @@ export default function Homepage() {
 						</div>
 					</div>
 					<div className={styles.sitemap_option}>
-						<button className={styles.button}>Kana</button>
+						<button
+							className={styles.button}
+							onClick={() => {
+								setKotobaClicked(!kotobaClicked);
+								setLevelClicked(false);
+								setRadicalClicked(false);
+								setKanjiClicked(false);
+							}}>
+							Kotoba Kanji
+						</button>
+						<div
+							className={
+								kotobaClicked ? styles.sitemap_levels + " " + styles.clicked : styles.sitemap_levels
+							}>
+							<LevelCardComponent type="kotoba" gradeRange={[1, 2]} />
+							<LevelCardComponent type="kotoba" gradeRange={[3, 4]} />
+							<LevelCardComponent type="kotoba" gradeRange={[5, 6]} />
+							<LevelCardComponent type="kotoba" gradeRange={[7, 8]} />
+							<LevelCardComponent type="kotoba" gradeRange={[9, 10]} />
+							<LevelCardComponent type="kotoba" gradeRange={[11, 12]} />
+						</div>
 					</div>
 				</div>
 			</div>

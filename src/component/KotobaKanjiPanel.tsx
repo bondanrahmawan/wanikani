@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Kanji } from "../../model/commonTypes";
+import { Kana, Kanji } from "../../model/commonTypes";
 import { hiraginoKaku } from "@/asset/fonts";
 import Button from "./button";
 import styles from "./panel.module.css";
@@ -8,26 +8,34 @@ import styles from "./panel.module.css";
 type PanelProps = {
 	level: string;
 	title?: string;
+	showKana?: boolean;
 };
 
-const KotobaKanjiPanel: React.FC<PanelProps> = ({ level, title }) => {
+const KotobaKanjiPanel: React.FC<PanelProps> = ({ level, title, showKana }) => {
 	const [kotobaKanji, setKotobaKanji] = useState<Kanji[]>([]);
+	const [kotobaKana, setKotobaKana] = useState<Kana[]>([]);
 	title = title || "Kotoba Kanji";
+	showKana = showKana || false;
 
 	const components: Array<JSX.Element> = [];
 
 	useEffect(() => {
-		const fetchUsers = async () => {
+		const fetchKotoba = async () => {
 			try {
 				const response = await fetch("/api/level/" + level + "/kotobakanji");
 				const data = await response.json();
 				setKotobaKanji(data);
+				if (showKana) {
+					const kanaResponse = await fetch("/api/level/" + level + "/kotobakana");
+					const kanaData = await kanaResponse.json();
+					setKotobaKana(kanaData);
+				}
 			} catch (err) {
-				console.error("Error fetching users:", err);
+				console.error("Error fetching kotoba:", err);
 			}
 		};
 
-		fetchUsers();
+		fetchKotoba();
 	}, []);
 
 	kotobaKanji.forEach((k) =>
@@ -42,11 +50,25 @@ const KotobaKanjiPanel: React.FC<PanelProps> = ({ level, title }) => {
 		)
 	);
 
+	if (showKana) {
+		kotobaKana.forEach((k) =>
+			components.push(
+				<Card
+					key={k.id}
+					characters={k.data.characters}
+					reading={""}
+					meaning={k.data.meanings[0].meaning}
+					docUrl={k.data.document_url}
+				/>
+			)
+		);
+	}
+
 	const finalComponent = (
 		<div>
 			<div className={styles.headerSection}>
 				<h1 className={styles.panelTitle}>{title}</h1>
-				<h1>{kotobaKanji.length}</h1>
+				<h1>{showKana ? kotobaKanji.length + kotobaKana.length : kotobaKanji.length}</h1>
 				<div className={styles.panelButton}>
 					<Button text="Practice" url={"/exercise/" + level + "?kotobakanji=true"} />
 				</div>
