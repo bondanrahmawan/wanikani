@@ -38,12 +38,6 @@
   height: 50px;
 }
 
-.buttonEnclosing {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .button {
   width: 125px;
   height: 50px;
